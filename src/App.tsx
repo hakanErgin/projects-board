@@ -1,5 +1,10 @@
 import React, { FC } from 'react';
 import { List, Avatar } from 'antd';
+import {
+  UserSwitchOutlined,
+  EditOutlined,
+  DeleteOutlined,
+} from '@ant-design/icons';
 import './App.css';
 
 const data = [
@@ -20,14 +25,20 @@ const data = [
 const App: FC = () => (
   <div className="App">
     <List
+      header={[
+        <div>
+          Header <div>Header</div>
+        </div>,
+      ]}
       className="ProjectList"
       itemLayout="horizontal"
       dataSource={data}
       renderItem={(item) => (
         <List.Item
           actions={[
-            <a key="list-loadmore-edit">edit</a>,
-            <a key="list-loadmore-more">more</a>,
+            <UserSwitchOutlined />,
+            <EditOutlined />,
+            <DeleteOutlined />,
           ]}
         >
           <List.Item.Meta

@@ -1,5 +1,10 @@
 @import '~antd/dist/antd.css';
 
+body {
+  height: '100vh';
+  background-color: aliceblue;
+}
+
 .App {
   display: flex;
   justify-content: center;
@@ -9,5 +14,6 @@
   /* display: flex;
   justify-content: center;
   align-items: center; */
+  background-color: white;
   min-width: 500px;
 }
