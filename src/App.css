@@ -1,5 +1,13 @@
 @import '~antd/dist/antd.css';
 
 .App {
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.ProjectList {
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
+  min-width: 500px;
 }
