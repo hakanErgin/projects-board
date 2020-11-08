@@ -3,7 +3,7 @@
     {
       "id": 1,
       "name": "Sub-Ex",
-      "enterprise": "Zooveo",
+      "enterprise_id": 1,
       "collobrators": [
         {
           "user_id": 2
@@ -16,7 +16,7 @@
     {
       "id": 2,
       "name": "Span",
-      "enterprise": "Wikizz",
+      "enterprise_id": 5,
       "collobrators": [
         {
           "user_id": 7
@@ -38,7 +38,7 @@
     {
       "id": 3,
       "name": "Home Ing",
-      "enterprise": "Livetube",
+      "enterprise_id": 2,
       "collobrators": [
         {
           "user_id": 16
@@ -60,7 +60,7 @@
     {
       "id": 4,
       "name": "Treeflex",
-      "enterprise": "Eidel",
+      "enterprise_id": 5,
       "collobrators": [
         {
           "user_id": 1
@@ -70,7 +70,7 @@
     {
       "id": 5,
       "name": "Home Ing",
-      "enterprise": "Skinte",
+      "enterprise_id": 1,
       "collobrators": [
         {
           "user_id": 12
@@ -239,6 +239,28 @@
       "last_name": "Brea",
       "email": "dbreaj@technorati.com",
       "pic": "https://robohash.org/odiofugitarchitecto.jpg?size=50x50&set=set1"
+    }
+  ],
+  "enterprises": [
+    {
+      "id": 1,
+      "name": "Quop"
+    },
+    {
+      "id": 2,
+      "name": "Blogspan"
+    },
+    {
+      "id": 3,
+      "name": "Jamia"
+    },
+    {
+      "id": 4,
+      "name": "Meezzy"
+    },
+    {
+      "id": 5,
+      "name": "Skinix"
     }
   ]
 }

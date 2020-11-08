@@ -7,6 +7,7 @@ import {
   DeleteOutlined,
   PlusOutlined,
 } from '@ant-design/icons';
+import { ProjectModal } from './components/ProjectModal';
 import './App.css';
 
 const projects = gql`
@@ -22,6 +23,7 @@ const projects = gql`
 
 function App() {
   const { loading, error, data } = useQuery(projects);
+  const [isProjectModalVisible, setisProjectModalVisible] = useState(false);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error</p>;
@@ -29,13 +31,35 @@ function App() {
   const { allProjects } = data;
   // console.log('a', allProjects);
 
+  function showModal() {
+    setisProjectModalVisible(true);
+  }
+
+  function handleOk(e: any) {
+    console.log(e);
+    setisProjectModalVisible(false);
+  }
+
+  function handleCancel(e: any) {
+    console.log(e);
+    setisProjectModalVisible(false);
+  }
+
   return (
     <div className="App">
+      <Modal
+        title="Basic Modal"
+        visible={isProjectModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
+        <ProjectModal />
+      </Modal>
       <List
         header={[
           <div>
             Header
-            <PlusOutlined />
+            <PlusOutlined onClick={showModal} />
           </div>,
         ]}
         className="ProjectList"
