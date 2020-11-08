@@ -1,32 +1,21 @@
-import React, { FC } from 'react';
-import { List, Avatar } from 'antd';
+import React, { useState } from 'react';
+import { useQuery, gql } from '@apollo/client';
+import { List, Modal } from 'antd';
 import {
   UserSwitchOutlined,
   EditOutlined,
   DeleteOutlined,
+  PlusOutlined,
 } from '@ant-design/icons';
 import './App.css';
-import { useQuery, gql } from '@apollo/client';
-
-const ant = [
-  {
-    title: 'Ant Design Title 1',
-  },
-  {
-    title: 'Ant Design Title 2',
-  },
-  {
-    title: 'Ant Design Title 3',
-  },
-  {
-    title: 'Ant Design Title 4',
-  },
-];
 
 const projects = gql`
   query {
     allProjects {
       id
+      name
+      enterprise
+      collobrators
     }
   }
 `;
@@ -35,21 +24,25 @@ function App() {
   const { loading, error, data } = useQuery(projects);
 
   if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error :(</p>;
-  if (data) console.log(data);
+  if (error) return <p>Error</p>;
+
+  const { allProjects } = data;
+  // console.log('a', allProjects);
 
   return (
     <div className="App">
       <List
         header={[
           <div>
-            Header <div>Header</div>
+            Header
+            <PlusOutlined />
           </div>,
         ]}
         className="ProjectList"
         itemLayout="horizontal"
-        dataSource={ant}
-        renderItem={(item: any) => (
+        dataSource={allProjects}
+        // rowKey={(item) => item.id}
+        renderItem={(item: any, index: any) => (
           <List.Item
             actions={[
               <UserSwitchOutlined />,
@@ -58,11 +51,8 @@ function App() {
             ]}
           >
             <List.Item.Meta
-              avatar={
-                <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-              }
-              title={<a href="https://ant.design">{item.title}</a>}
-              description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+              title={<a href="https://ant.design">{item.name}</a>}
+              description={item.collobrators.length + ' collobrators'}
             />
           </List.Item>
         )}
