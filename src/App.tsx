@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useQuery, gql } from '@apollo/client';
-import { List, Modal } from 'antd';
+import { List, Modal, Button } from 'antd';
 import {
   UserSwitchOutlined,
   EditOutlined,
@@ -15,7 +15,7 @@ const projects = gql`
     allProjects {
       id
       name
-      enterprise
+      enterprise_id
       collobrators
     }
   }
@@ -23,7 +23,7 @@ const projects = gql`
 
 function App() {
   const { loading, error, data } = useQuery(projects);
-  const [isProjectModalVisible, setisProjectModalVisible] = useState(false);
+  const [isProjectModalVisible, setIsProjectModalVisible] = useState(false);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error</p>;
@@ -32,26 +32,33 @@ function App() {
   // console.log('a', allProjects);
 
   function showModal() {
-    setisProjectModalVisible(true);
+    setIsProjectModalVisible(true);
   }
 
   function handleOk(e: any) {
     console.log(e);
-    setisProjectModalVisible(false);
+    setIsProjectModalVisible(false);
   }
 
   function handleCancel(e: any) {
     console.log(e);
-    setisProjectModalVisible(false);
+    setIsProjectModalVisible(false);
   }
 
   return (
     <div className="App">
       <Modal
-        title="Basic Modal"
+        title="Add Project"
         visible={isProjectModalVisible}
         onOk={handleOk}
         onCancel={handleCancel}
+        footer={
+          <Button key="submit" type="primary" onClick={handleOk}>
+            Add Project
+          </Button>
+        }
+
+        // footer={<Button}
       >
         <ProjectModal />
       </Modal>

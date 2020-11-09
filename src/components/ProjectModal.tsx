@@ -1,8 +1,25 @@
 import React from 'react';
+import { useQuery, gql } from '@apollo/client';
 import { Input, Select } from 'antd';
+
+const enterprises = gql`
+  query {
+    allEnterprises {
+      id
+      name
+    }
+  }
+`;
 
 export function ProjectModal() {
   const { Option } = Select;
+
+  const { loading, error, data } = useQuery(enterprises);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error</p>;
+
+  const { allEnterprises } = data;
 
   function onChange(value: any) {
     console.log(`selected ${value}`);
@@ -22,11 +39,14 @@ export function ProjectModal() {
 
   return (
     <div className="ProjectModal">
-      <Input placeholder="e.g: Spotify" />
+      <Input
+        placeholder="e.g: Spotify"
+        onChange={(e) => console.log(e.target.value)}
+      />
       <Select
         showSearch
         style={{ width: '100%' }}
-        placeholder="Select a person"
+        placeholder={allEnterprises[0].name}
         optionFilterProp="children"
         onChange={onChange}
         onFocus={onFocus}
@@ -36,9 +56,9 @@ export function ProjectModal() {
           option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
         }
       >
-        <Option value="lucy">Lucy</Option>
-        <Option value="jack">Jack</Option>
-        <Option value="tom">Tom</Option>
+        {allEnterprises.map((enterprise: any) => (
+          <Option value={enterprise.id}>{enterprise.name}</Option>
+        ))}
       </Select>
     </div>
   );
