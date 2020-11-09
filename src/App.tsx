@@ -35,13 +35,11 @@ function App() {
     setIsProjectModalVisible(true);
   }
 
-  function handleOk(e: any) {
-    console.log(e);
+  function handleOk(/* e: any */) {
     setIsProjectModalVisible(false);
   }
 
-  function handleCancel(e: any) {
-    console.log(e);
+  function handleCancel(/* e: any */) {
     setIsProjectModalVisible(false);
   }
 
@@ -57,11 +55,10 @@ function App() {
             Add Project
           </Button>
         }
-
-        // footer={<Button}
       >
         <ProjectModal />
       </Modal>
+      {/* below stays */}
       <List
         header={[
           <div>

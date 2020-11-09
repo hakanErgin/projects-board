@@ -2,6 +2,7 @@ import React from 'react';
 import { useQuery, gql } from '@apollo/client';
 import { Input, Select } from 'antd';
 
+const { Option } = Select;
 const enterprises = gql`
   query {
     allEnterprises {
@@ -12,8 +13,6 @@ const enterprises = gql`
 `;
 
 export function ProjectModal() {
-  const { Option } = Select;
-
   const { loading, error, data } = useQuery(enterprises);
 
   if (loading) return <p>Loading...</p>;
