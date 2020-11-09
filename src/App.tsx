@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useQuery, gql } from '@apollo/client';
-import { List, Modal, Button } from 'antd';
+import { useQuery, useMutation, gql } from '@apollo/client';
+import { List, Modal, Button, Input, Select } from 'antd';
 import {
   UserSwitchOutlined,
   EditOutlined,
@@ -10,54 +10,44 @@ import {
 import { ProjectModal } from './components/ProjectModal';
 import './App.css';
 
-const projects = gql`
+const GET_PROJECTS = gql`
   query {
     allProjects {
       id
       name
       enterprise_id
-      collobrators
+      Users {
+        id
+      }
     }
   }
 `;
 
 function App() {
-  const { loading, error, data } = useQuery(projects);
+  const {
+    loading: projectsLoading,
+    error: projectsError,
+    data: projectsData,
+  } = useQuery(GET_PROJECTS);
+
   const [isProjectModalVisible, setIsProjectModalVisible] = useState(false);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error</p>;
+  if (projectsLoading) return <p>Loading...</p>;
+  if (projectsError) return <p>Error</p>;
 
-  const { allProjects } = data;
+  const { allProjects } = projectsData;
   // console.log('a', allProjects);
 
   function showModal() {
     setIsProjectModalVisible(true);
   }
 
-  function handleOk(/* e: any */) {
-    setIsProjectModalVisible(false);
-  }
-
-  function handleCancel(/* e: any */) {
-    setIsProjectModalVisible(false);
-  }
-
   return (
     <div className="App">
-      <Modal
-        title="Add Project"
-        visible={isProjectModalVisible}
-        onOk={handleOk}
-        onCancel={handleCancel}
-        footer={
-          <Button key="submit" type="primary" onClick={handleOk}>
-            Add Project
-          </Button>
-        }
-      >
-        <ProjectModal />
-      </Modal>
+      <ProjectModal
+        isProjectModalVisible={isProjectModalVisible}
+        setIsProjectModalVisible={setIsProjectModalVisible}
+      />
       {/* below stays */}
       <List
         header={[
@@ -80,7 +70,7 @@ function App() {
           >
             <List.Item.Meta
               title={<a href="https://ant.design">{item.name}</a>}
-              description={item.collobrators.length + ' collobrators'}
+              description={item.Users.length + ' collobrators'}
             />
           </List.Item>
         )}
