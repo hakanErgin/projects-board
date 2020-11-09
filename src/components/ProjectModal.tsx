@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useQuery, gql } from '@apollo/client';
 import { Input, Select } from 'antd';
 
@@ -14,6 +14,8 @@ const enterprises = gql`
 
 export function ProjectModal() {
   const { loading, error, data } = useQuery(enterprises);
+  const [selectedProjectName, setSelectedProjectName] = useState('');
+  const [selectedEnterpriseId, setSelectedEnterpriseId] = useState('');
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error</p>;
@@ -21,26 +23,14 @@ export function ProjectModal() {
   const { allEnterprises } = data;
 
   function onChange(value: any) {
-    console.log(`selected ${value}`);
-  }
-
-  function onBlur() {
-    console.log('blur');
-  }
-
-  function onFocus() {
-    console.log('focus');
-  }
-
-  function onSearch(val: any) {
-    console.log('search:', val);
+    setSelectedEnterpriseId(value);
   }
 
   return (
     <div className="ProjectModal">
       <Input
         placeholder="e.g: Spotify"
-        onChange={(e) => console.log(e.target.value)}
+        onChange={(e: any) => setSelectedProjectName(e.target.value)}
       />
       <Select
         showSearch
@@ -48,9 +38,6 @@ export function ProjectModal() {
         placeholder={allEnterprises[0].name}
         optionFilterProp="children"
         onChange={onChange}
-        onFocus={onFocus}
-        onBlur={onBlur}
-        onSearch={onSearch}
         filterOption={(input, option: any) =>
           option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
         }
