@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useQuery, useMutation, gql } from '@apollo/client';
-import { List, Modal, Button, Input, Select } from 'antd';
+import { useQuery, gql } from '@apollo/client';
+import { List } from 'antd';
 import {
   UserSwitchOutlined,
   EditOutlined,

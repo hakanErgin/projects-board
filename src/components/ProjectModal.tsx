@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation, gql } from '@apollo/client';
-import { List, Modal, Button, Input, Select } from 'antd';
+import { Modal, Button, Input, Select } from 'antd';
 import { get_random_id } from '../helper_functions';
 
 const { Option } = Select;
