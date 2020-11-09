@@ -8,6 +8,8 @@ import {
   PlusOutlined,
 } from '@ant-design/icons';
 import { ProjectModal } from './components/ProjectModal';
+import { EditProjectModal } from './components/EditProjectModal';
+
 import './App.css';
 
 const GET_PROJECTS = gql`
@@ -31,6 +33,10 @@ function App() {
   } = useQuery(GET_PROJECTS);
 
   const [isProjectModalVisible, setIsProjectModalVisible] = useState(false);
+  const [isEditProjectModalVisible, setIsEditProjectModalVisible] = useState(
+    false
+  );
+  const [selectedProjectId, setselectedProjectId] = useState('');
 
   if (projectsLoading) return <p>Loading...</p>;
   if (projectsError) return <p>Error</p>;
@@ -41,6 +47,10 @@ function App() {
   function showModal() {
     setIsProjectModalVisible(true);
   }
+  function showEditProjectModal(project_id: any) {
+    setselectedProjectId(project_id);
+    setIsEditProjectModalVisible(true);
+  }
 
   return (
     <div className="App">
@@ -48,7 +58,11 @@ function App() {
         isProjectModalVisible={isProjectModalVisible}
         setIsProjectModalVisible={setIsProjectModalVisible}
       />
-      {/* below stays */}
+      <EditProjectModal
+        selectedProjectId={selectedProjectId}
+        isEditProjectModalVisible={isEditProjectModalVisible}
+        setIsEditProjectModalVisible={setIsEditProjectModalVisible}
+      />
       <List
         header={[
           <div>
@@ -64,7 +78,7 @@ function App() {
           <List.Item
             actions={[
               <UserSwitchOutlined />,
-              <EditOutlined />,
+              <EditOutlined onClick={() => showEditProjectModal(item.id)} />,
               <DeleteOutlined />,
             ]}
           >
