@@ -29,9 +29,8 @@ const GET_PROJECT = gql`
 
 const UPDATE_PROJECT = gql`
   mutation($id: ID!, $name: String!, $enterprise_id: ID!) {
-    updateProject(id: $id, name:$name, enterprise_id:$enterprise_id)
-      id
-    }
+    updateProject(id: $id, name: $name, enterprise_id: $enterprise_id)
+    id
   }
 `;
 
