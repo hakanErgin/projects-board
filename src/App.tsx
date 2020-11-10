@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useQuery, gql } from '@apollo/client';
+import { useQuery, useMutation, gql } from '@apollo/client';
 import { List } from 'antd';
 import {
   UserSwitchOutlined,
@@ -25,12 +25,19 @@ const GET_PROJECTS = gql`
   }
 `;
 
+const REMOVE_PROJECT = gql`
+  mutation($id: ID!) {
+    removeProject(id: $id)
+  }
+`;
+
 function App() {
   const {
     loading: projectsLoading,
     error: projectsError,
     data: projectsData,
   } = useQuery(GET_PROJECTS);
+  const [deleteProject] = useMutation(REMOVE_PROJECT);
 
   const [isProjectModalVisible, setIsProjectModalVisible] = useState(false);
   const [isEditProjectModalVisible, setIsEditProjectModalVisible] = useState(
@@ -54,6 +61,13 @@ function App() {
   function showEditProjectModal(project_id: any) {
     setselectedProjectId(project_id);
     setIsEditProjectModalVisible(true);
+  }
+  function removeProject(id: any) {
+    deleteProject({
+      variables: {
+        id,
+      },
+    });
   }
 
   return (
@@ -87,7 +101,7 @@ function App() {
             actions={[
               <UserSwitchOutlined />,
               <EditOutlined onClick={() => showEditProjectModal(item.id)} />,
-              <DeleteOutlined />,
+              <DeleteOutlined onClick={() => removeProject(item.id)} />,
             ]}
           >
             <List.Item.Meta
