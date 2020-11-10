@@ -41,24 +41,46 @@ export function EditProjectModal(props: any) {
     setIsEditProjectModalVisible,
   } = props;
 
-  const { loading, error, data } = useQuery(GET_ENTERPRISES);
-  const { data: projectData } = useQuery(GET_PROJECT, {
-    variables: { id: selectedProjectId },
-  });
   const [selectedProjectName, setSelectedProjectName] = useState('');
   const [selectedEnterpriseId, setSelectedEnterpriseId] = useState('');
 
+  const { loading, error, data } = useQuery(GET_ENTERPRISES);
+  const { data: projectData } = useQuery(GET_PROJECT, {
+    variables: { id: selectedProjectId },
+    onCompleted: (data: any) => {
+      setSelectedProjectName(data.Project.name);
+      setSelectedEnterpriseId(data.Project.Enterprise.id);
+    },
+  });
+  const [updateProject] = useMutation(UPDATE_PROJECT);
+
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error</p>;
-  console.log(projectData);
+  // console.log(projectData);
 
   const { allEnterprises } = data;
 
   function onChange(value: any) {
     setSelectedEnterpriseId(value);
+    console.log(value);
   }
 
   function handleOk() {
+    console.log(
+      projectData.Project.id,
+      '',
+      projectData.Project.name,
+      '',
+      projectData.Project.Enterprise.id
+    );
+
+    updateProject({
+      variables: {
+        id: projectData.Project.id,
+        name: projectData.Project.name,
+        enterprise_id: projectData.Project.Enterprise.id,
+      },
+    });
     setIsEditProjectModalVisible(false);
   }
 
@@ -66,40 +88,44 @@ export function EditProjectModal(props: any) {
     setIsEditProjectModalVisible(false);
   }
 
-  return (
-    <div className="EditProjectModal">
-      <Modal
-        title="Edit Project"
-        visible={isEditProjectModalVisible}
-        onOk={handleOk}
-        onCancel={handleCancel}
-        footer={
-          <Button key="submit" type="primary" onClick={handleOk}>
-            Edit Project
-          </Button>
-        }
-      >
-        <Input
-          placeholder="e.g: Spotify"
-          onChange={(e: any) => setSelectedProjectName(e.target.value)}
-        />
-        <Select
-          showSearch
-          style={{ width: '100%' }}
-          placeholder={allEnterprises[0].name}
-          optionFilterProp="children"
-          onChange={onChange}
-          filterOption={(input, option: any) =>
-            option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+  if (selectedProjectName !== '')
+    return (
+      <div className="EditProjectModal">
+        <Modal
+          // title="edit project"
+          title={`Edit ${projectData.Project.name}`}
+          visible={isEditProjectModalVisible}
+          onOk={handleOk}
+          onCancel={handleCancel}
+          footer={
+            <Button key="submit" type="primary" onClick={handleOk}>
+              Edit Project
+            </Button>
           }
         >
-          {allEnterprises.map((enterprise: any) => (
-            <Option value={enterprise.id} key={enterprise.id}>
-              {enterprise.name}
-            </Option>
-          ))}
-        </Select>
-      </Modal>
-    </div>
-  );
+          <Input
+            defaultValue={selectedProjectName}
+            onChange={(e: any) => setSelectedProjectName(e.target.value)}
+          />
+          <Select
+            defaultValue={projectData.Project.Enterprise.name}
+            showSearch
+            style={{ width: '100%' }}
+            placeholder={allEnterprises[0].name}
+            optionFilterProp="children"
+            onChange={onChange}
+            filterOption={(input, option: any) =>
+              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            }
+          >
+            {allEnterprises.map((enterprise: any) => (
+              <Option value={enterprise.id} key={enterprise.id}>
+                {enterprise.name}
+              </Option>
+            ))}
+          </Select>
+        </Modal>
+      </div>
+    );
+  else return null;
 }

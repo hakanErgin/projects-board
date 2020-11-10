@@ -54,15 +54,19 @@ function App() {
 
   return (
     <div className="App">
-      <ProjectModal
-        isProjectModalVisible={isProjectModalVisible}
-        setIsProjectModalVisible={setIsProjectModalVisible}
-      />
-      <EditProjectModal
-        selectedProjectId={selectedProjectId}
-        isEditProjectModalVisible={isEditProjectModalVisible}
-        setIsEditProjectModalVisible={setIsEditProjectModalVisible}
-      />
+      {isProjectModalVisible && (
+        <ProjectModal
+          isProjectModalVisible={isProjectModalVisible}
+          setIsProjectModalVisible={setIsProjectModalVisible}
+        />
+      )}
+      {isEditProjectModalVisible && (
+        <EditProjectModal
+          selectedProjectId={selectedProjectId}
+          isEditProjectModalVisible={isEditProjectModalVisible}
+          setIsEditProjectModalVisible={setIsEditProjectModalVisible}
+        />
+      )}
       <List
         header={[
           <div>
