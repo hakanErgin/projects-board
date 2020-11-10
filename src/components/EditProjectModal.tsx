@@ -74,14 +74,6 @@ export function EditProjectModal(props: any) {
   }
 
   function handleOk() {
-    console.log(
-      selectedProjectId,
-      '',
-      selectedProjectName,
-      '',
-      selectedEnterpriseId
-    );
-
     updateProjecct({
       variables: {
         id: selectedProjectId,
@@ -95,11 +87,13 @@ export function EditProjectModal(props: any) {
   function handleCancel(/* e: any */) {
     setIsEditProjectModalVisible(false);
   }
+  // console.log(projectData.Project.Enterprise.Id);
 
   if (selectedProjectName !== '')
     return (
       <div className="EditProjectModal">
         <Modal
+          // destroyOnClose={true}
           // title="edit project"
           title={`Edit ${projectData.Project.name}`}
           visible={isEditProjectModalVisible}
@@ -116,10 +110,11 @@ export function EditProjectModal(props: any) {
             onChange={(e: any) => setSelectedProjectName(e.target.value)}
           />
           <Select
-            defaultValue={projectData.Project.Enterprise.name}
+            // defaultValue={projectData.Project.Enterprise.Id}
+            value={selectedEnterpriseId}
             showSearch
             style={{ width: '100%' }}
-            placeholder={allEnterprises[0].name}
+            // placeholder={allEnterprises[0].name}
             optionFilterProp="children"
             onChange={onChange}
             filterOption={(input, option: any) =>
