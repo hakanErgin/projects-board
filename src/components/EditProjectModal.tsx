@@ -32,6 +32,10 @@ const UPDATE_PROJECT = gql`
       id
       name
       enterprise_id
+      Enterprise {
+        id
+        name
+      }
     }
   }
 `;
@@ -47,30 +51,24 @@ export function EditProjectModal(props: any) {
   const [selectedEnterpriseId, setSelectedEnterpriseId] = useState('');
 
   const { loading, error, data } = useQuery(GET_ENTERPRISES);
-  const { data: projectData, error: getProError } = useQuery(GET_PROJECT, {
+  const { error: getProError } = useQuery(GET_PROJECT, {
     variables: { id: selectedProjectId },
     onCompleted: (data: any) => {
       setSelectedProjectName(data.Project.name);
       setSelectedEnterpriseId(data.Project.Enterprise.id);
     },
   });
-  const [
-    updateProjecct,
-    { data: updateData, error: updateError },
-  ] = useMutation(UPDATE_PROJECT);
+  const [updateProjecct] = useMutation(UPDATE_PROJECT);
 
   if (loading) return <p>Loading...</p>;
-  if (error || updateError || getProError) {
-    console.log('error');
+  if (error || getProError) {
     return <p>Error</p>;
   }
-  // console.log(projectData);
 
   const { allEnterprises } = data;
 
   function onChange(value: any) {
     setSelectedEnterpriseId(value);
-    console.log(value);
   }
 
   function handleOk() {
@@ -87,15 +85,12 @@ export function EditProjectModal(props: any) {
   function handleCancel(/* e: any */) {
     setIsEditProjectModalVisible(false);
   }
-  // console.log(projectData.Project.Enterprise.Id);
 
-  if (selectedProjectName !== '')
+  if (selectedProjectName !== '') {
     return (
       <div className="EditProjectModal">
         <Modal
-          // destroyOnClose={true}
-          // title="edit project"
-          title={`Edit ${projectData.Project.name}`}
+          title={`Edit ${selectedProjectName}`}
           visible={isEditProjectModalVisible}
           onOk={handleOk}
           onCancel={handleCancel}
@@ -130,5 +125,5 @@ export function EditProjectModal(props: any) {
         </Modal>
       </div>
     );
-  else return null;
+  } else return null;
 }
