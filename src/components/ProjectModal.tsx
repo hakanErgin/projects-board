@@ -15,7 +15,7 @@ const GET_ENTERPRISES = gql`
 `;
 
 const CREATE_PROJECT = gql`
-  mutation CreateProject($id: ID!, $name: String!, $enterprise_id: ID!) {
+  mutation($id: ID!, $name: String!, $enterprise_id: ID!) {
     createProject(id: $id, name: $name, enterprise_id: $enterprise_id) {
       id
     }

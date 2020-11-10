@@ -14,42 +14,44 @@ const GET_ENTERPRISES = gql`
   }
 `;
 
-const CREATE_PROJECT = gql`
-  mutation CreateProject($id: ID!, $name: String!, $enterprise_id: ID!) {
-    createProject(id: $id, name: $name, enterprise_id: $enterprise_id) {
+const GET_PROJECT = gql`
+  query($id: ID!) {
+    Project(id: $id) {
+      id
+      name
+      Enterprise {
+        id
+        name
+      }
+    }
+  }
+`;
+
+const UPDATE_PROJECT = gql`
+  mutation($id: ID!, $name: String!, $enterprise_id: ID!) {
+    updateProject(id: $id, name:$name, enterprise_id:$enterprise_id)
       id
     }
   }
 `;
 
 export function EditProjectModal(props: any) {
+  const {
+    selectedProjectId,
+    isEditProjectModalVisible,
+    setIsEditProjectModalVisible,
+  } = props;
+
   const { loading, error, data } = useQuery(GET_ENTERPRISES);
+  const { data: projectData } = useQuery(GET_PROJECT, {
+    variables: { id: selectedProjectId },
+  });
   const [selectedProjectName, setSelectedProjectName] = useState('');
   const [selectedEnterpriseId, setSelectedEnterpriseId] = useState('');
-  const [createProject] = useMutation(CREATE_PROJECT, {
-    update(cache, { data: { createProject } }) {
-      cache.modify({
-        fields: {
-          allProjects(existingProjects = []) {
-            const newProjectRef = cache.writeFragment({
-              data: createProject,
-              fragment: gql`
-                fragment NewProject on Project {
-                  id
-                }
-              `,
-            });
-            return [...existingProjects, newProjectRef];
-          },
-        },
-      });
-    },
-  });
-
-  const { isEditProjectModalVisible, setIsEditProjectModalVisible } = props;
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error</p>;
+  console.log(projectData);
 
   const { allEnterprises } = data;
 
@@ -58,13 +60,6 @@ export function EditProjectModal(props: any) {
   }
 
   function handleOk() {
-    createProject({
-      variables: {
-        id: get_random_id(),
-        name: selectedProjectName,
-        enterprise_id: selectedEnterpriseId,
-      },
-    });
     setIsEditProjectModalVisible(false);
   }
 
@@ -75,13 +70,13 @@ export function EditProjectModal(props: any) {
   return (
     <div className="EditProjectModal">
       <Modal
-        title="Add Project"
+        title="Edit Project"
         visible={isEditProjectModalVisible}
         onOk={handleOk}
         onCancel={handleCancel}
         footer={
           <Button key="submit" type="primary" onClick={handleOk}>
-            Add Project
+            Edit Project
           </Button>
         }
       >
