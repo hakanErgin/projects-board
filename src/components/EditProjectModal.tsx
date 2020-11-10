@@ -13,7 +13,7 @@ const GET_ENTERPRISES = gql`
   }
 `;
 
-const GET_PROJECT = gql`
+export const GET_PROJECT = gql`
   query($id: ID!) {
     Project(id: $id) {
       id

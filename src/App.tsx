@@ -9,6 +9,7 @@ import {
 } from '@ant-design/icons';
 import { ProjectModal } from './components/ProjectModal';
 import { EditProjectModal } from './components/EditProjectModal';
+import { GET_PROJECT } from './components/EditProjectModal';
 
 import './App.css';
 
@@ -38,22 +39,18 @@ function App() {
     data: projectsData,
   } = useQuery(GET_PROJECTS);
   const [deleteProject] = useMutation(REMOVE_PROJECT, {
-    update(cache, { data: { removeProject } }) {
-      cache.modify({
-        fields: {
-          allProjects(existingProjects = []) {
-            const newProjectRef = cache.writeFragment({
-              data: removeProject,
-              fragment: gql`
-                fragment NewProject on Project {
-                  id
-                }
-              `,
-            });
-            return [...existingProjects, newProjectRef];
-          },
-        },
+    update(cache) {
+      const project = cache.readFragment({
+        id: 'Project:1', // The value of the to-do item's unique identifier
+        fragment: gql`
+          fragment MyProject on Project {
+            id
+            name
+            enterprise_id
+          }
+        `,
       });
+      console.log(project);
     },
   });
 
