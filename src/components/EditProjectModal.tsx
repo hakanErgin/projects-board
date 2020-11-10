@@ -30,6 +30,8 @@ const UPDATE_PROJECT = gql`
   mutation($id: ID!, $name: String, $enterprise_id: ID) {
     updateProject(id: $id, name: $name, enterprise_id: $enterprise_id) {
       id
+      name
+      enterprise_id
     }
   }
 `;
@@ -56,7 +58,6 @@ export function EditProjectModal(props: any) {
     updateProjecct,
     { data: updateData, error: updateError },
   ] = useMutation(UPDATE_PROJECT);
-  if (updateError) console.log('aa', updateError);
 
   if (loading) return <p>Loading...</p>;
   if (error || updateError || getProError) {
