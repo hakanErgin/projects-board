@@ -39,7 +39,11 @@ function App() {
   const [selectedProjectId, setselectedProjectId] = useState('');
 
   if (projectsLoading) return <p>Loading...</p>;
-  if (projectsError) return <p>Error</p>;
+  if (projectsError) {
+    console.log(projectsError);
+
+    return <p>Error</p>;
+  }
 
   const { allProjects } = projectsData;
   // console.log('a', allProjects);

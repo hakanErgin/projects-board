@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation, gql } from '@apollo/client';
 import { Modal, Button, Input, Select } from 'antd';
-import { get_random_id } from '../helper_functions';
 
 const { Option } = Select;
 
@@ -28,9 +27,10 @@ const GET_PROJECT = gql`
 `;
 
 const UPDATE_PROJECT = gql`
-  mutation($id: ID!, $name: String!, $enterprise_id: ID!) {
-    updateProject(id: $id, name: $name, enterprise_id: $enterprise_id)
-    id
+  mutation($id: ID!, $name: String, $enterprise_id: ID) {
+    updateProject(id: $id, name: $name, enterprise_id: $enterprise_id) {
+      id
+    }
   }
 `;
 
@@ -45,17 +45,24 @@ export function EditProjectModal(props: any) {
   const [selectedEnterpriseId, setSelectedEnterpriseId] = useState('');
 
   const { loading, error, data } = useQuery(GET_ENTERPRISES);
-  const { data: projectData } = useQuery(GET_PROJECT, {
+  const { data: projectData, error: getProError } = useQuery(GET_PROJECT, {
     variables: { id: selectedProjectId },
     onCompleted: (data: any) => {
       setSelectedProjectName(data.Project.name);
       setSelectedEnterpriseId(data.Project.Enterprise.id);
     },
   });
-  const [updateProject] = useMutation(UPDATE_PROJECT);
+  const [
+    updateProjecct,
+    { data: updateData, error: updateError },
+  ] = useMutation(UPDATE_PROJECT);
+  if (updateError) console.log('aa', updateError);
 
   if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error</p>;
+  if (error || updateError || getProError) {
+    console.log('error');
+    return <p>Error</p>;
+  }
   // console.log(projectData);
 
   const { allEnterprises } = data;
@@ -67,18 +74,18 @@ export function EditProjectModal(props: any) {
 
   function handleOk() {
     console.log(
-      projectData.Project.id,
+      selectedProjectId,
       '',
-      projectData.Project.name,
+      selectedProjectName,
       '',
-      projectData.Project.Enterprise.id
+      selectedEnterpriseId
     );
 
-    updateProject({
+    updateProjecct({
       variables: {
-        id: projectData.Project.id,
-        name: projectData.Project.name,
-        enterprise_id: projectData.Project.Enterprise.id,
+        id: selectedProjectId,
+        name: selectedProjectName,
+        enterprise_id: selectedEnterpriseId,
       },
     });
     setIsEditProjectModalVisible(false);
