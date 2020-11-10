@@ -37,7 +37,25 @@ function App() {
     error: projectsError,
     data: projectsData,
   } = useQuery(GET_PROJECTS);
-  const [deleteProject] = useMutation(REMOVE_PROJECT);
+  const [deleteProject] = useMutation(REMOVE_PROJECT, {
+    update(cache, { data: { removeProject } }) {
+      cache.modify({
+        fields: {
+          allProjects(existingProjects = []) {
+            const newProjectRef = cache.writeFragment({
+              data: removeProject,
+              fragment: gql`
+                fragment NewProject on Project {
+                  id
+                }
+              `,
+            });
+            return [...existingProjects, newProjectRef];
+          },
+        },
+      });
+    },
+  });
 
   const [isProjectModalVisible, setIsProjectModalVisible] = useState(false);
   const [isEditProjectModalVisible, setIsEditProjectModalVisible] = useState(
