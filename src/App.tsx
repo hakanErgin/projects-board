@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useQuery, useMutation, gql } from '@apollo/client';
+import { useQuery, useMutation, gql, useApolloClient } from '@apollo/client';
 import { List } from 'antd';
 import {
   UserSwitchOutlined,
@@ -33,26 +33,13 @@ const REMOVE_PROJECT = gql`
 `;
 
 function App() {
+  const client = useApolloClient();
   const {
     loading: projectsLoading,
     error: projectsError,
     data: projectsData,
   } = useQuery(GET_PROJECTS);
-  const [deleteProject] = useMutation(REMOVE_PROJECT, {
-    update(cache) {
-      const project = cache.readFragment({
-        id: 'Project:1', // The value of the to-do item's unique identifier
-        fragment: gql`
-          fragment MyProject on Project {
-            id
-            name
-            enterprise_id
-          }
-        `,
-      });
-      console.log(project);
-    },
-  });
+  const [deleteProject] = useMutation(REMOVE_PROJECT);
 
   const [isProjectModalVisible, setIsProjectModalVisible] = useState(false);
   const [isEditProjectModalVisible, setIsEditProjectModalVisible] = useState(
@@ -82,6 +69,7 @@ function App() {
       variables: {
         id,
       },
+      refetchQueries: [{ query: GET_PROJECTS }],
     });
   }
 
