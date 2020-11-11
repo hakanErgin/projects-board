@@ -18,13 +18,8 @@ const GET_PROJECTS = gql`
     allProjects {
       id
       name
-      enterprise_id
       Users {
         id
-        first_name
-        last_name
-        email
-        avatar
       }
     }
   }
