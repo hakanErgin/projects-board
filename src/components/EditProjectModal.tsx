@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useQuery, useMutation, gql } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 import { Modal, Button, Input, Select } from 'antd';
 import { GET_ENTERPRISES, GET_PROJECT } from '../gql/queries';
 import { UPDATE_PROJECT } from '../gql/mutations';
