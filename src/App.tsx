@@ -10,26 +10,9 @@ import {
 import { ProjectModal } from './components/ProjectModal';
 import { EditProjectModal } from './components/EditProjectModal';
 import { UserModal } from './components/UserModal';
-
+import { GET_PROJECTS } from './gql/queries';
+import { REMOVE_PROJECT } from './gql/mutations';
 import './App.css';
-
-const GET_PROJECTS = gql`
-  query {
-    allProjects {
-      id
-      name
-      Users {
-        id
-      }
-    }
-  }
-`;
-
-const REMOVE_PROJECT = gql`
-  mutation($id: ID!) {
-    removeProject(id: $id)
-  }
-`;
 
 function App() {
   const {

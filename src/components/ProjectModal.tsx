@@ -2,25 +2,10 @@ import React, { useState } from 'react';
 import { useQuery, useMutation, gql } from '@apollo/client';
 import { Modal, Button, Input, Select } from 'antd';
 import { get_random_id } from '../helper_functions';
+import { GET_ENTERPRISES } from '../gql/queries';
+import { CREATE_PROJECT } from '../gql/mutations';
 
 const { Option } = Select;
-
-const GET_ENTERPRISES = gql`
-  query {
-    allEnterprises {
-      id
-      name
-    }
-  }
-`;
-
-const CREATE_PROJECT = gql`
-  mutation($id: ID!, $name: String!, $enterprise_id: ID!) {
-    createProject(id: $id, name: $name, enterprise_id: $enterprise_id) {
-      id
-    }
-  }
-`;
 
 export function ProjectModal(props: any) {
   const { loading, error, data } = useQuery(GET_ENTERPRISES);

@@ -1,44 +1,10 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation, gql } from '@apollo/client';
 import { Modal, Button, Input, Select } from 'antd';
+import { GET_ENTERPRISES, GET_PROJECT } from '../gql/queries';
+import { UPDATE_PROJECT } from '../gql/mutations';
 
 const { Option } = Select;
-
-const GET_ENTERPRISES = gql`
-  query {
-    allEnterprises {
-      id
-      name
-    }
-  }
-`;
-
-export const GET_PROJECT = gql`
-  query($id: ID!) {
-    Project(id: $id) {
-      id
-      name
-      Enterprise {
-        id
-        name
-      }
-    }
-  }
-`;
-
-const UPDATE_PROJECT = gql`
-  mutation($id: ID!, $name: String, $enterprise_id: ID) {
-    updateProject(id: $id, name: $name, enterprise_id: $enterprise_id) {
-      id
-      name
-      enterprise_id
-      Enterprise {
-        id
-        name
-      }
-    }
-  }
-`;
 
 export function EditProjectModal(props: any) {
   const {
