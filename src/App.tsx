@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useQuery, useMutation, gql, useApolloClient } from '@apollo/client';
+import { useQuery, useMutation, gql } from '@apollo/client';
 import { List } from 'antd';
 import {
   UserSwitchOutlined,
@@ -9,7 +9,7 @@ import {
 } from '@ant-design/icons';
 import { ProjectModal } from './components/ProjectModal';
 import { EditProjectModal } from './components/EditProjectModal';
-import { GET_PROJECT } from './components/EditProjectModal';
+import { UserModal } from './components/UserModal';
 
 import './App.css';
 
@@ -33,7 +33,6 @@ const REMOVE_PROJECT = gql`
 `;
 
 function App() {
-  const client = useApolloClient();
   const {
     loading: projectsLoading,
     error: projectsError,
@@ -42,6 +41,7 @@ function App() {
   const [deleteProject] = useMutation(REMOVE_PROJECT);
 
   const [isProjectModalVisible, setIsProjectModalVisible] = useState(false);
+  const [isUserModalVisible, setIsUserModalVisible] = useState(false);
   const [isEditProjectModalVisible, setIsEditProjectModalVisible] = useState(
     false
   );
@@ -55,10 +55,12 @@ function App() {
   }
 
   const { allProjects } = projectsData;
-  // console.log('a', allProjects);
 
   function showModal() {
     setIsProjectModalVisible(true);
+  }
+  function showUserModal() {
+    setIsUserModalVisible(true);
   }
   function showEditProjectModal(project_id: any) {
     setselectedProjectId(project_id);
@@ -92,6 +94,12 @@ function App() {
           setIsProjectModalVisible={setIsProjectModalVisible}
         />
       )}
+      {isUserModalVisible && (
+        <UserModal
+          isUserModalVisible={isUserModalVisible}
+          setIsUserModalVisible={setIsUserModalVisible}
+        />
+      )}
       {isEditProjectModalVisible && (
         <EditProjectModal
           selectedProjectId={selectedProjectId}
@@ -113,13 +121,13 @@ function App() {
         renderItem={(item: any, index: any) => (
           <List.Item
             actions={[
-              <UserSwitchOutlined />,
+              <UserSwitchOutlined onClick={() => showUserModal()} />,
               <EditOutlined onClick={() => showEditProjectModal(item.id)} />,
               <DeleteOutlined onClick={() => removeProject(item.id)} />,
             ]}
           >
             <List.Item.Meta
-              title={<a href="https://ant.design">{item.name}</a>}
+              title={<p>{item.name}</p>}
               description={item.Users.length + ' collobrators'}
             />
           </List.Item>
