@@ -20,9 +20,11 @@ function App() {
     error: projectsError,
     data: projectsData,
   } = useQuery(GET_PROJECTS);
-  const [deleteProject] = useMutation(REMOVE_PROJECT, {
+  const [deleteProject] = useMutation(
+    REMOVE_PROJECT /* , {
     refetchQueries: [{ query: GET_PROJECTS }],
-  });
+  } */
+  );
 
   const [isProjectModalVisible, setIsProjectModalVisible] = useState(false);
   const [isUserModalVisible, setIsUserModalVisible] = useState(false);
@@ -43,7 +45,8 @@ function App() {
   function showModal() {
     setIsProjectModalVisible(true);
   }
-  function showUserModal() {
+  function showUserModal(project_id: any) {
+    setselectedProjectId(project_id);
     setIsUserModalVisible(true);
   }
   function showEditProjectModal(project_id: any) {
@@ -57,19 +60,18 @@ function App() {
       variables: {
         id: project_id,
       },
-
-      // update: (cache) => {
-      //   const projects: any = cache.readQuery({
-      //     query: GET_PROJECTS,
-      //   });
-      //   const newProjects = projects.allProjects.filter(
-      //     (project: any) => project.id !== project_id
-      //   );
-      //   cache.writeQuery({
-      //     query: GET_PROJECTS,
-      //     data: { allProjects: { newProjects } },
-      //   });
-      // },
+      update: (cache) => {
+        const projects: any = cache.readQuery({
+          query: GET_PROJECTS,
+        });
+        const newProjects = projects.allProjects.filter(
+          (project: any) => project.id !== project_id
+        );
+        cache.writeQuery({
+          query: GET_PROJECTS,
+          data: { allProjects: { newProjects } },
+        });
+      },
     });
   }
 
@@ -83,6 +85,7 @@ function App() {
       )}
       {isUserModalVisible && (
         <UserModal
+          selectedProjectId={selectedProjectId}
           isUserModalVisible={isUserModalVisible}
           setIsUserModalVisible={setIsUserModalVisible}
         />
@@ -108,7 +111,7 @@ function App() {
         renderItem={(item: any, index: any) => (
           <List.Item
             actions={[
-              <UserSwitchOutlined onClick={() => showUserModal()} />,
+              <UserSwitchOutlined onClick={() => showUserModal(item.id)} />,
               <EditOutlined onClick={() => showEditProjectModal(item.id)} />,
               <DeleteOutlined onClick={() => removeProject(item.id)} />,
             ]}
