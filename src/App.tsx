@@ -64,12 +64,23 @@ function App() {
     setselectedProjectId(project_id);
     setIsEditProjectModalVisible(true);
   }
-  function removeProject(id: any) {
+  function removeProject(project_id: any) {
     deleteProject({
       variables: {
-        id,
+        id: project_id,
       },
-      refetchQueries: [{ query: GET_PROJECTS }],
+      update: (cache) => {
+        const projects: any = cache.readQuery({
+          query: GET_PROJECTS,
+        });
+        const newProjects = projects.allProjects.filter(
+          (project: any) => project.id !== project_id
+        );
+        cache.writeQuery({
+          query: GET_PROJECTS,
+          data: { allProjects: { newProjects } },
+        });
+      },
     });
   }
 
