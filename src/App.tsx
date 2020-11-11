@@ -21,6 +21,10 @@ const GET_PROJECTS = gql`
       enterprise_id
       Users {
         id
+        first_name
+        last_name
+        email
+        avatar
       }
     }
   }
@@ -67,6 +71,8 @@ function App() {
     setIsEditProjectModalVisible(true);
   }
   function removeProject(project_id: any) {
+    console.log({ project_id });
+
     deleteProject({
       variables: {
         id: project_id,
@@ -127,7 +133,11 @@ function App() {
             ]}
           >
             <List.Item.Meta
-              title={<p>{item.name}</p>}
+              title={
+                <p>
+                  {item.name}- {item.id}
+                </p>
+              }
               description={item.Users.length + ' collobrators'}
             />
           </List.Item>
