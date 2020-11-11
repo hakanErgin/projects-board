@@ -42,7 +42,9 @@ function App() {
     error: projectsError,
     data: projectsData,
   } = useQuery(GET_PROJECTS);
-  const [deleteProject] = useMutation(REMOVE_PROJECT);
+  const [deleteProject] = useMutation(REMOVE_PROJECT, {
+    refetchQueries: [{ query: GET_PROJECTS }],
+  });
 
   const [isProjectModalVisible, setIsProjectModalVisible] = useState(false);
   const [isUserModalVisible, setIsUserModalVisible] = useState(false);
@@ -71,24 +73,25 @@ function App() {
     setIsEditProjectModalVisible(true);
   }
   function removeProject(project_id: any) {
-    console.log({ project_id });
+    // console.log({ project_id });
 
     deleteProject({
       variables: {
         id: project_id,
       },
-      update: (cache) => {
-        const projects: any = cache.readQuery({
-          query: GET_PROJECTS,
-        });
-        const newProjects = projects.allProjects.filter(
-          (project: any) => project.id !== project_id
-        );
-        cache.writeQuery({
-          query: GET_PROJECTS,
-          data: { allProjects: { newProjects } },
-        });
-      },
+
+      // update: (cache) => {
+      //   const projects: any = cache.readQuery({
+      //     query: GET_PROJECTS,
+      //   });
+      //   const newProjects = projects.allProjects.filter(
+      //     (project: any) => project.id !== project_id
+      //   );
+      //   cache.writeQuery({
+      //     query: GET_PROJECTS,
+      //     data: { allProjects: { newProjects } },
+      //   });
+      // },
     });
   }
 
