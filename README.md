@@ -20,3 +20,7 @@ Install fake graphql server:
 - Install [this package](https://github.com/marmelab/json-graphql-server) using `npm install -g json-graphql-server`
 - While in `projects-board` directory, launch the server using `json-graphql-server db.json --p 5000` to server `db.json` on `http://localhost:5000/`
 - In the same directory, using another terminal window; start React client UI using `npm start`
+
+### Notes:
+
+_There is [a bug caused by the package used](https://github.com/hakanErgin/projects-board/issues/3#issue-741639520)_
