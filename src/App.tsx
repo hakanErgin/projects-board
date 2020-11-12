@@ -30,7 +30,9 @@ function App() {
     error: projectsError,
     data: projectsData,
   } = useQuery(GET_PROJECTS);
-  const [removeProject] = useMutation(REMOVE_PROJECT);
+  const [removeProject] = useMutation(REMOVE_PROJECT, {
+    errorPolicy: 'ignore',
+  });
 
   // making sure fetched data is ready
   if (projectsLoading) return <p>Loading...</p>;
