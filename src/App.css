@@ -1,19 +1,69 @@
 @import '~antd/dist/antd.css';
 
 body {
-  height: '100vh';
-  background-color: aliceblue;
+  background-color: rgb(243, 245, 251);
 }
 
 .App {
+  padding-top: 5%;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
 }
+
 .ProjectList {
-  /* display: flex;
-  justify-content: center;
-  align-items: center; */
+  padding: 5px 25px 10px 25px;
   background-color: white;
-  min-width: 500px;
+  min-width: 450px;
+  border-radius: 20px;
+  box-shadow: 0px 4px 10px 0px rgb(211, 210, 210);
+}
+
+.ant-list-split .ant-list-header {
+  border-bottom: 0px;
+}
+
+.HeaderTitle {
+  margin-bottom: 0px;
+  font-weight: 600;
+}
+
+.ant-list-item-meta-title {
+  margin-bottom: 0px;
+}
+
+.Header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 0px;
+  font-size: 17px;
+  margin-bottom: 0px;
+  font-family: Arial, Helvetica, sans-serif Impact, Haettenschweiler,
+    'Arial Narrow Bold', sans-serif;
+}
+
+.Icon {
+  font-size: 21px;
+  color: rgb(53, 53, 53);
+}
+
+.ProjectTitles {
+  font-size: 20px;
+  margin-bottom: 0px;
+}
+
+.ProjectDescriptions {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.ant-list-item {
+  padding: 8px 0;
+}
+
+.Welcome {
+  position: relative;
+  left: 0px;
 }
