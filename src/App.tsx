@@ -29,10 +29,7 @@ function App() {
     error: projectsError,
     data: projectsData,
   } = useQuery(GET_PROJECTS);
-  const [removeProject] = useMutation(REMOVE_PROJECT, {
-    fetchPolicy: 'no-cache',
-    refetchQueries: [{ query: GET_PROJECTS }],
-  });
+  const [removeProject] = useMutation(REMOVE_PROJECT);
 
   // making sure fetched data is ready
   if (projectsLoading) return <p>Loading...</p>;
@@ -56,6 +53,18 @@ function App() {
     removeProject({
       variables: {
         id: projectId,
+      },
+      update: (cache) => {
+        const projects: any = cache.readQuery({
+          query: GET_PROJECTS,
+        });
+        const newProjects = projects.allProjects.filter(
+          (project: any) => project.id !== projectId
+        );
+        cache.writeQuery({
+          query: GET_PROJECTS,
+          data: { allProjects: { newProjects } },
+        });
       },
     });
   }
