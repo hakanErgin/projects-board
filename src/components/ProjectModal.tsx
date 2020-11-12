@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { useQuery, useMutation, gql } from '@apollo/client';
 import { Modal, Button, Input, Select } from 'antd';
 import { get_random_id } from '../helper_functions';
-import { GET_ENTERPRISES } from '../gql/queries';
-import { CREATE_PROJECT } from '../gql/mutations';
+import { GET_ENTERPRISES, CREATE_PROJECT } from '../gql';
 
 const { Option } = Select;
 

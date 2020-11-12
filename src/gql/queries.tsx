@@ -33,3 +33,29 @@ export const GET_PROJECTS = gql`
     }
   }
 `;
+
+export const GET_ALL_USERS = gql`
+  query {
+    allUsers {
+      id
+      email
+      first_name
+      last_name
+    }
+  }
+`;
+
+export const GET_USERS_BY_PROJECT = gql`
+  query($id: ID!) {
+    Project(id: $id) {
+      Users {
+        id
+        first_name
+        last_name
+        avatar
+        email
+        project_id
+      }
+    }
+  }
+`;

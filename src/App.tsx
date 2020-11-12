@@ -7,11 +7,8 @@ import {
   DeleteOutlined,
   PlusOutlined,
 } from '@ant-design/icons';
-import { ProjectModal } from './components/ProjectModal';
-import { EditProjectModal } from './components/EditProjectModal';
-import { UserModal } from './components/UserModal';
-import { GET_PROJECTS } from './gql/queries';
-import { REMOVE_PROJECT } from './gql/mutations';
+import { ProjectModal, EditProjectModal, UserModal } from './components';
+import { GET_PROJECTS, REMOVE_PROJECT } from './gql';
 import './App.css';
 
 function App() {
@@ -20,11 +17,9 @@ function App() {
     error: projectsError,
     data: projectsData,
   } = useQuery(GET_PROJECTS);
-  const [deleteProject] = useMutation(
-    REMOVE_PROJECT /* , {
+  const [deleteProject] = useMutation(REMOVE_PROJECT, {
     refetchQueries: [{ query: GET_PROJECTS }],
-  } */
-  );
+  });
 
   const [isProjectModalVisible, setIsProjectModalVisible] = useState(false);
   const [isUserModalVisible, setIsUserModalVisible] = useState(false);
@@ -54,23 +49,9 @@ function App() {
     setIsEditProjectModalVisible(true);
   }
   function removeProject(project_id: any) {
-    // console.log({ project_id });
-
     deleteProject({
       variables: {
         id: project_id,
-      },
-      update: (cache) => {
-        const projects: any = cache.readQuery({
-          query: GET_PROJECTS,
-        });
-        const newProjects = projects.allProjects.filter(
-          (project: any) => project.id !== project_id
-        );
-        cache.writeQuery({
-          query: GET_PROJECTS,
-          data: { allProjects: { newProjects } },
-        });
       },
     });
   }
@@ -107,25 +88,29 @@ function App() {
         className="ProjectList"
         itemLayout="horizontal"
         dataSource={allProjects}
-        // rowKey={(item) => item.id}
-        renderItem={(item: any, index: any) => (
-          <List.Item
-            actions={[
-              <UserSwitchOutlined onClick={() => showUserModal(item.id)} />,
-              <EditOutlined onClick={() => showEditProjectModal(item.id)} />,
-              <DeleteOutlined onClick={() => removeProject(item.id)} />,
-            ]}
-          >
-            <List.Item.Meta
-              title={
-                <p>
-                  {item.name}- {item.id}
-                </p>
-              }
-              description={item.Users.length + ' collobrators'}
-            />
-          </List.Item>
-        )}
+        rowKey={'id'}
+        renderItem={(item: any) => {
+          return (
+            <List.Item
+              key={item.id}
+              actions={[
+                <UserSwitchOutlined onClick={() => showUserModal(item.id)} />,
+                <EditOutlined onClick={() => showEditProjectModal(item.id)} />,
+                <DeleteOutlined onClick={() => removeProject(item.id)} />,
+              ]}
+            >
+              <List.Item.Meta
+                key={item.id}
+                title={
+                  <p key={item.id}>
+                    {item.name} - {item.id}
+                  </p>
+                }
+                description={item.Users.length + ' collobrators'}
+              />
+            </List.Item>
+          );
+        }}
       />
     </div>
   );

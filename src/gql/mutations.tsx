@@ -27,3 +27,12 @@ export const REMOVE_PROJECT = gql`
     removeProject(id: $id)
   }
 `;
+
+export const UPDATE_USER = gql`
+  mutation($id: ID!, $project_id: ID) {
+    updateUser(id: $id, project_id: $project_id) {
+      id
+      project_id
+    }
+  }
+`;

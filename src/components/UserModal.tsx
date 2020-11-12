@@ -1,43 +1,9 @@
 import React, { useState } from 'react';
-import { useQuery, useMutation, gql } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 import { AutoComplete, Modal, List, Avatar } from 'antd';
+import { GET_ALL_USERS, GET_USERS_BY_PROJECT, UPDATE_USER } from '../gql/';
 
 const { Option } = AutoComplete;
-
-const GET_ALL_USERS = gql`
-  query {
-    allUsers {
-      id
-      email
-      first_name
-      last_name
-    }
-  }
-`;
-
-const GET_USERS_BY_PROJECT = gql`
-  query($id: ID!) {
-    Project(id: $id) {
-      Users {
-        id
-        first_name
-        last_name
-        avatar
-        email
-        project_id
-      }
-    }
-  }
-`;
-
-const UPDATE_USER = gql`
-  mutation($id: ID!, $project_id: ID) {
-    updateUser(id: $id, project_id: $project_id) {
-      id
-      project_id
-    }
-  }
-`;
 
 export function UserModal(props: any) {
   const { isUserModalVisible, setIsUserModalVisible } = props;
@@ -139,7 +105,7 @@ export function UserModal(props: any) {
               onMouseLeave={() => setHoveredItemIndex(null)}
               actions={[
                 hoveredItemIndex === index && (
-                  <a key="list-delete" onClick={() => removeUser(item.id)}>
+                  <a href="/#" onClick={() => removeUser(item.id)}>
                     Delete
                   </a>
                 ),
@@ -153,7 +119,6 @@ export function UserModal(props: any) {
             </List.Item>
           )}
         />
-        ,
       </Modal>
     </div>
   );
