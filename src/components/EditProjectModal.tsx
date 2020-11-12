@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
-import { GET_ENTERPRISES, GET_PROJECT, UPDATE_PROJECT } from '../gql';
+import {
+  GET_ENTERPRISES,
+  GET_PROJECT,
+  UPDATE_PROJECT,
+  GET_PROJECTS,
+} from '../gql';
 import { Modal, Button, Input, Select } from 'antd';
 const { Option } = Select;
 
@@ -51,6 +56,11 @@ export function EditProjectModal(props: any) {
         name: selectedProjectName,
         enterprise_id: selectedEnterpriseId,
       },
+      refetchQueries: [
+        {
+          query: GET_PROJECTS,
+        },
+      ],
     });
     setIsEditProjectModalVisible(false);
   }
