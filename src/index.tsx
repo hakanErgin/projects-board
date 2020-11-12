@@ -22,6 +22,14 @@ const cache = new InMemoryCache({
 const client = new ApolloClient({
   uri: 'http://localhost:5000/graphql',
   cache: cache,
+  defaultOptions: {
+    query: {
+      fetchPolicy: 'no-cache',
+    },
+    mutate: {
+      fetchPolicy: 'no-cache',
+    },
+  },
 });
 
 ReactDOM.render(

@@ -12,15 +12,9 @@ import { GET_PROJECTS, REMOVE_PROJECT } from './gql';
 import './App.css';
 
 function App() {
-  const {
-    loading: projectsLoading,
-    error: projectsError,
-    data: projectsData,
-  } = useQuery(GET_PROJECTS);
-  const [deleteProject] = useMutation(REMOVE_PROJECT, {
-    refetchQueries: [{ query: GET_PROJECTS }],
-  });
+  const [selectedProjectId, setselectedProjectId] = useState('');
 
+  // modal visibilty states
   const [isAddProjectModalVisible, setIsAddProjectModalVisible] = useState(
     false
   );
@@ -28,18 +22,24 @@ function App() {
   const [isEditProjectModalVisible, setIsEditProjectModalVisible] = useState(
     false
   );
-  const [selectedProjectId, setselectedProjectId] = useState('');
 
+  // api call hooks
+  const {
+    loading: projectsLoading,
+    error: projectsError,
+    data: projectsData,
+  } = useQuery(GET_PROJECTS);
+  const [removeProject] = useMutation(REMOVE_PROJECT, {
+    refetchQueries: [{ query: GET_PROJECTS }],
+  });
+
+  // making sure fetched data is ready
   if (projectsLoading) return <p>Loading...</p>;
-  if (projectsError) {
-    console.log(projectsError);
-
-    return <p>Error</p>;
-  }
-
+  if (projectsError) return <p>Error</p>;
   const { allProjects } = projectsData;
 
-  function showModal() {
+  // modal visibility functions
+  function showAddProjectModal() {
     setIsAddProjectModalVisible(true);
   }
   function showUserModal(projectId: any) {
@@ -50,8 +50,10 @@ function App() {
     setselectedProjectId(projectId);
     setIsEditProjectModalVisible(true);
   }
-  function removeProject(projectId: any) {
-    deleteProject({
+
+  // component logic functions
+  function handleRemoveProject(projectId: any) {
+    removeProject({
       variables: {
         id: projectId,
       },
@@ -84,7 +86,7 @@ function App() {
         header={[
           <div>
             Header
-            <PlusOutlined onClick={showModal} />
+            <PlusOutlined onClick={showAddProjectModal} />
           </div>,
         ]}
         className="ProjectList"
@@ -98,7 +100,7 @@ function App() {
               actions={[
                 <UserSwitchOutlined onClick={() => showUserModal(item.id)} />,
                 <EditOutlined onClick={() => showEditProjectModal(item.id)} />,
-                <DeleteOutlined onClick={() => removeProject(item.id)} />,
+                <DeleteOutlined onClick={() => handleRemoveProject(item.id)} />,
               ]}
             >
               <List.Item.Meta

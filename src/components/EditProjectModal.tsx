@@ -1,43 +1,52 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
-import { Modal, Button, Input, Select } from 'antd';
 import { GET_ENTERPRISES, GET_PROJECT, UPDATE_PROJECT } from '../gql';
-
+import { Modal, Button, Input, Select } from 'antd';
 const { Option } = Select;
 
 export function EditProjectModal(props: any) {
+  const [selectedProjectName, setSelectedProjectName] = useState('');
+  const [selectedEnterpriseId, setSelectedEnterpriseId] = useState('');
+
   const {
     selectedProjectId,
     isEditProjectModalVisible,
     setIsEditProjectModalVisible,
   } = props;
 
-  const [selectedProjectName, setSelectedProjectName] = useState('');
-  const [selectedEnterpriseId, setSelectedEnterpriseId] = useState('');
+  // api call hooks
+  const {
+    loading: enterprisesLoading,
+    error: enterprisesError,
+    data: enterprisesData,
+  } = useQuery(GET_ENTERPRISES);
+  const { loading: projectLoading, error: projectError } = useQuery(
+    GET_PROJECT,
+    {
+      variables: { id: selectedProjectId },
+      onCompleted: (data: any) => {
+        setSelectedProjectName(data.Project.name);
+        setSelectedEnterpriseId(data.Project.Enterprise.id);
+      },
+    }
+  );
+  const [
+    editProject,
+    { loading: projectEditLoading, error: projectEditError },
+  ] = useMutation(UPDATE_PROJECT);
 
-  const { loading, error, data } = useQuery(GET_ENTERPRISES);
-  const { error: getProError } = useQuery(GET_PROJECT, {
-    variables: { id: selectedProjectId },
-    onCompleted: (data: any) => {
-      setSelectedProjectName(data.Project.name);
-      setSelectedEnterpriseId(data.Project.Enterprise.id);
-    },
-  });
-  const [updateProjecct] = useMutation(UPDATE_PROJECT);
+  // making sure fetched data is ready
+  if (enterprisesLoading || projectLoading || projectEditLoading)
+    return <p>Loading...</p>;
+  if (enterprisesError || projectError || projectEditError) return <p>Error</p>;
+  const { allEnterprises } = enterprisesData;
 
-  if (loading) return <p>Loading...</p>;
-  if (error || getProError) {
-    return <p>Error</p>;
-  }
-
-  const { allEnterprises } = data;
-
-  function onChange(value: any) {
+  // component logic functions
+  function onEnterpriseChange(value: any) {
     setSelectedEnterpriseId(value);
   }
-
-  function handleOk() {
-    updateProjecct({
+  function handleEditProject() {
+    editProject({
       variables: {
         id: selectedProjectId,
         name: selectedProjectName,
@@ -46,8 +55,7 @@ export function EditProjectModal(props: any) {
     });
     setIsEditProjectModalVisible(false);
   }
-
-  function handleCancel(/* e: any */) {
+  function cancelEditProject() {
     setIsEditProjectModalVisible(false);
   }
 
@@ -57,10 +65,10 @@ export function EditProjectModal(props: any) {
         <Modal
           title={`Edit ${selectedProjectName}`}
           visible={isEditProjectModalVisible}
-          onOk={handleOk}
-          onCancel={handleCancel}
+          onOk={handleEditProject}
+          onCancel={cancelEditProject}
           footer={
-            <Button key="submit" type="primary" onClick={handleOk}>
+            <Button key="submit" type="primary" onClick={handleEditProject}>
               Edit Project
             </Button>
           }
@@ -74,7 +82,7 @@ export function EditProjectModal(props: any) {
             showSearch
             style={{ width: '100%' }}
             optionFilterProp="children"
-            onChange={onChange}
+            onChange={onEnterpriseChange}
             filterOption={(input, option: any) =>
               option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
             }

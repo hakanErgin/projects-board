@@ -1,48 +1,39 @@
 import React, { useState } from 'react';
-import { useQuery, useMutation, gql } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 import { Modal, Button, Input, Select } from 'antd';
 import { get_random_id } from '../helper_functions';
-import { GET_ENTERPRISES, CREATE_PROJECT } from '../gql';
-
+import { GET_ENTERPRISES, CREATE_PROJECT, GET_PROJECTS } from '../gql';
 const { Option } = Select;
 
 export function AddProjectModal(props: any) {
-  const { loading, error, data } = useQuery(GET_ENTERPRISES);
   const [selectedProjectName, setSelectedProjectName] = useState('');
   const [selectedEnterpriseId, setSelectedEnterpriseId] = useState('');
-  const [createProject] = useMutation(CREATE_PROJECT, {
-    update(cache, { data: { createProject } }) {
-      cache.modify({
-        fields: {
-          allProjects(existingProjects = []) {
-            const newProjectRef = cache.writeFragment({
-              data: createProject,
-              fragment: gql`
-                fragment NewProject on Project {
-                  id
-                }
-              `,
-            });
-            return [...existingProjects, newProjectRef];
-          },
-        },
-      });
-    },
-  });
 
   const { isAddProjectModalVisible, setIsAddProjectModalVisible } = props;
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error</p>;
+  // api call hooks
+  const {
+    loading: enterprisesLoading,
+    error: enterprisesError,
+    data: enterprisesData,
+  } = useQuery(GET_ENTERPRISES);
+  const [
+    addProject,
+    { loading: projectCreateLoading, error: projectCreateError },
+  ] = useMutation(CREATE_PROJECT, {
+    refetchQueries: [{ query: GET_PROJECTS }],
+  });
 
-  const { allEnterprises } = data;
+  if (enterprisesLoading || projectCreateLoading) return <p>Loading...</p>;
+  if (enterprisesError || projectCreateError) return <p>Error</p>;
+  const { allEnterprises } = enterprisesData;
 
-  function onChange(value: any) {
+  // component logic functions
+  function onEnterpriseChange(value: any) {
     setSelectedEnterpriseId(value);
   }
-
-  function handleOk() {
-    createProject({
+  function handleAddProject() {
+    addProject({
       variables: {
         id: get_random_id(),
         name: selectedProjectName,
@@ -51,8 +42,7 @@ export function AddProjectModal(props: any) {
     });
     setIsAddProjectModalVisible(false);
   }
-
-  function handleCancel(/* e: any */) {
+  function handleCancel() {
     setIsAddProjectModalVisible(false);
   }
 
@@ -61,10 +51,10 @@ export function AddProjectModal(props: any) {
       <Modal
         title="Add Project"
         visible={isAddProjectModalVisible}
-        onOk={handleOk}
+        onOk={handleAddProject}
         onCancel={handleCancel}
         footer={
-          <Button key="submit" type="primary" onClick={handleOk}>
+          <Button key="submit" type="primary" onClick={handleAddProject}>
             Add Project
           </Button>
         }
@@ -78,7 +68,7 @@ export function AddProjectModal(props: any) {
           style={{ width: '100%' }}
           placeholder={'Quop'}
           optionFilterProp="children"
-          onChange={onChange}
+          onChange={onEnterpriseChange}
           filterOption={(input, option: any) =>
             option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
           }
