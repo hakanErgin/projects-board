@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { useQuery, useMutation } from '@apollo/client';
+import { useQuery, useMutation, gql } from '@apollo/client';
 import { Modal, Button, Input, Select } from 'antd';
-import { GET_ENTERPRISES, CREATE_PROJECT, GET_PROJECTS } from '../gql';
+import { GET_ENTERPRISES, CREATE_PROJECT } from '../gql';
 const { Option } = Select;
 
 export function AddProjectModal(props: any) {
@@ -20,7 +20,23 @@ export function AddProjectModal(props: any) {
     addProject,
     { loading: projectCreateLoading, error: projectCreateError },
   ] = useMutation(CREATE_PROJECT, {
-    refetchQueries: [{ query: GET_PROJECTS }],
+    update(cache, { data: { createProject } }) {
+      cache.modify({
+        fields: {
+          allProjects(existingProjects = []) {
+            const newProjectRef = cache.writeFragment({
+              data: createProject,
+              fragment: gql`
+                fragment NewProject on Project {
+                  id
+                }
+              `,
+            });
+            return [...existingProjects, newProjectRef];
+          },
+        },
+      });
+    },
   });
 
   if (enterprisesLoading || projectCreateLoading) return <p>Loading...</p>;
