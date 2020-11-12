@@ -6,7 +6,7 @@ import { GET_ENTERPRISES, CREATE_PROJECT } from '../gql';
 
 const { Option } = Select;
 
-export function ProjectModal(props: any) {
+export function AddProjectModal(props: any) {
   const { loading, error, data } = useQuery(GET_ENTERPRISES);
   const [selectedProjectName, setSelectedProjectName] = useState('');
   const [selectedEnterpriseId, setSelectedEnterpriseId] = useState('');
@@ -30,7 +30,7 @@ export function ProjectModal(props: any) {
     },
   });
 
-  const { isProjectModalVisible, setIsProjectModalVisible } = props;
+  const { isAddProjectModalVisible, setIsAddProjectModalVisible } = props;
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error</p>;
@@ -49,18 +49,18 @@ export function ProjectModal(props: any) {
         enterprise_id: selectedEnterpriseId,
       },
     });
-    setIsProjectModalVisible(false);
+    setIsAddProjectModalVisible(false);
   }
 
   function handleCancel(/* e: any */) {
-    setIsProjectModalVisible(false);
+    setIsAddProjectModalVisible(false);
   }
 
   return (
-    <div className="ProjectModal">
+    <div className="AddProjectModal">
       <Modal
         title="Add Project"
-        visible={isProjectModalVisible}
+        visible={isAddProjectModalVisible}
         onOk={handleOk}
         onCancel={handleCancel}
         footer={
@@ -76,7 +76,7 @@ export function ProjectModal(props: any) {
         <Select
           showSearch
           style={{ width: '100%' }}
-          placeholder={allEnterprises[0].name}
+          placeholder={'Quop'}
           optionFilterProp="children"
           onChange={onChange}
           filterOption={(input, option: any) =>

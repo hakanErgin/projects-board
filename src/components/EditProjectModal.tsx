@@ -70,11 +70,9 @@ export function EditProjectModal(props: any) {
             onChange={(e: any) => setSelectedProjectName(e.target.value)}
           />
           <Select
-            // defaultValue={projectData.Project.Enterprise.Id}
             value={selectedEnterpriseId}
             showSearch
             style={{ width: '100%' }}
-            // placeholder={allEnterprises[0].name}
             optionFilterProp="children"
             onChange={onChange}
             filterOption={(input, option: any) =>

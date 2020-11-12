@@ -7,7 +7,7 @@ import {
   DeleteOutlined,
   PlusOutlined,
 } from '@ant-design/icons';
-import { ProjectModal, EditProjectModal, UserModal } from './components';
+import { AddProjectModal, EditProjectModal, UserModal } from './components';
 import { GET_PROJECTS, REMOVE_PROJECT } from './gql';
 import './App.css';
 
@@ -21,7 +21,9 @@ function App() {
     refetchQueries: [{ query: GET_PROJECTS }],
   });
 
-  const [isProjectModalVisible, setIsProjectModalVisible] = useState(false);
+  const [isAddProjectModalVisible, setIsAddProjectModalVisible] = useState(
+    false
+  );
   const [isUserModalVisible, setIsUserModalVisible] = useState(false);
   const [isEditProjectModalVisible, setIsEditProjectModalVisible] = useState(
     false
@@ -38,7 +40,7 @@ function App() {
   const { allProjects } = projectsData;
 
   function showModal() {
-    setIsProjectModalVisible(true);
+    setIsAddProjectModalVisible(true);
   }
   function showUserModal(projectId: any) {
     setselectedProjectId(projectId);
@@ -58,10 +60,10 @@ function App() {
 
   return (
     <div className="App">
-      {isProjectModalVisible && (
-        <ProjectModal
-          isProjectModalVisible={isProjectModalVisible}
-          setIsProjectModalVisible={setIsProjectModalVisible}
+      {isAddProjectModalVisible && (
+        <AddProjectModal
+          isAddProjectModalVisible={isAddProjectModalVisible}
+          setIsAddProjectModalVisible={setIsAddProjectModalVisible}
         />
       )}
       {isUserModalVisible && (
