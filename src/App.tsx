@@ -10,6 +10,7 @@ import {
 import { AddProjectModal, EditProjectModal, UserModal } from './components';
 import { GET_PROJECTS, REMOVE_PROJECT } from './gql';
 import './App.css';
+import { Project } from './types';
 
 function App() {
   const [selectedProjectId, setselectedProjectId] = useState('');
@@ -39,17 +40,17 @@ function App() {
   function showAddProjectModal() {
     setIsAddProjectModalVisible(true);
   }
-  function showUserModal(projectId: any) {
+  function showUserModal(projectId: string) {
     setselectedProjectId(projectId);
     setIsUserModalVisible(true);
   }
-  function showEditProjectModal(projectId: any) {
+  function showEditProjectModal(projectId: string) {
     setselectedProjectId(projectId);
     setIsEditProjectModalVisible(true);
   }
 
   // component logic functions
-  function handleRemoveProject(projectId: any) {
+  function handleRemoveProject(projectId: string) {
     removeProject({
       variables: {
         id: projectId,
@@ -59,7 +60,7 @@ function App() {
           query: GET_PROJECTS,
         });
         const newProjects = projects.allProjects.filter(
-          (project: any) => project.id !== projectId
+          (project: Project) => project.id !== projectId
         );
         cache.writeQuery({
           query: GET_PROJECTS,
@@ -102,7 +103,7 @@ function App() {
         itemLayout="horizontal"
         dataSource={projectsData.allProjects}
         rowKey={'id'}
-        renderItem={(item: any) => {
+        renderItem={(item: Project) => {
           return (
             <List.Item
               key={item.id}
