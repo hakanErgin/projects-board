@@ -6,8 +6,6 @@ import { Enterprise, Props } from '../types';
 const { Option } = Select;
 
 export function AddProjectModal(props: Props) {
-  console.log(props);
-
   const [selectedProjectName, setSelectedProjectName] = useState<string>('');
   const [selectedEnterpriseId, setSelectedEnterpriseId] = useState<string>('');
 
