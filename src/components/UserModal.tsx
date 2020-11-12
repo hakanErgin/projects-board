@@ -11,8 +11,8 @@ import { Props, User } from '../types';
 const { Option } = AutoComplete;
 
 export function UserModal(props: Props) {
-  const [hoveredItemIndex, setHoveredItemIndex] = useState(null);
-  const [isSearchBarVisible, setIsSearchBarVisible] = useState(false);
+  const [hoveredItemIndex, setHoveredItemIndex] = useState<string | null>(null);
+  const [isSearchBarVisible, setIsSearchBarVisible] = useState<boolean>(false);
   const [searchResult, setSearchResult] = useState<string[]>([]);
 
   const { isUserModalVisible, setIsUserModalVisible } = props;
@@ -117,8 +117,6 @@ export function UserModal(props: Props) {
           itemLayout="horizontal"
           dataSource={projectUsersData.Project.Users}
           renderItem={(item: User, index: any) => {
-            console.log({ item }, { index });
-
             return (
               <List.Item
                 onMouseEnter={() => setHoveredItemIndex(index)}

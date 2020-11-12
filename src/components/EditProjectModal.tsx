@@ -11,8 +11,8 @@ import { OncompletedProject, Props, Enterprise } from '../types';
 const { Option } = Select;
 
 export function EditProjectModal(props: Props) {
-  const [selectedProjectName, setSelectedProjectName] = useState('');
-  const [selectedEnterpriseId, setSelectedEnterpriseId] = useState('');
+  const [selectedProjectName, setSelectedProjectName] = useState<string>('');
+  const [selectedEnterpriseId, setSelectedEnterpriseId] = useState<string>('');
 
   const {
     selectedProjectId,

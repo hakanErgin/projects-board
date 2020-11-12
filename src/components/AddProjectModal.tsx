@@ -8,8 +8,8 @@ const { Option } = Select;
 export function AddProjectModal(props: Props) {
   console.log(props);
 
-  const [selectedProjectName, setSelectedProjectName] = useState('');
-  const [selectedEnterpriseId, setSelectedEnterpriseId] = useState('');
+  const [selectedProjectName, setSelectedProjectName] = useState<string>('');
+  const [selectedEnterpriseId, setSelectedEnterpriseId] = useState<string>('');
 
   const { isAddProjectModalVisible, setIsAddProjectModalVisible } = props;
 
