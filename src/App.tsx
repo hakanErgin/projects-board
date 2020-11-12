@@ -53,8 +53,6 @@ function App() {
 
   // component logic functions
   function handleRemoveProject(projectId: any) {
-    console.log(projectId);
-
     removeProject({
       variables: {
         id: projectId,
@@ -107,11 +105,7 @@ function App() {
             >
               <List.Item.Meta
                 key={item.id}
-                title={
-                  <p key={item.id}>
-                    {item.name} - {item.id}
-                  </p>
-                }
+                title={<p key={item.id}>{item.name}</p>}
                 description={item.Users.length + ' collobrators'}
               />
             </List.Item>
