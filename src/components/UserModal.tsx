@@ -7,9 +7,10 @@ import {
   UPDATE_USER,
   GET_PROJECTS,
 } from '../gql/';
+import { Props, User } from '../types';
 const { Option } = AutoComplete;
 
-export function UserModal(props: any) {
+export function UserModal(props: Props) {
   const [hoveredItemIndex, setHoveredItemIndex] = useState(null);
   const [isSearchBarVisible, setIsSearchBarVisible] = useState(false);
   const [searchResult, setSearchResult] = useState<string[]>([]);
@@ -46,7 +47,7 @@ export function UserModal(props: any) {
   if (projectUsersError || usersError) return <p>Error</p>;
 
   // component logic functions
-  function removeUser(userId: any) {
+  function removeUser(userId: string) {
     updateUser({
       variables: { id: userId, project_id: null },
     });
@@ -61,11 +62,13 @@ export function UserModal(props: any) {
     if (!value) {
       res = [];
     } else {
-      res = usersData.allUsers.filter((user: any) =>
-        [user.first_name, user.last_name, user.email].some((element) =>
-          element.toUpperCase().includes(value.toUpperCase())
-        )
-      );
+      res = usersData.allUsers.filter((user: User) => {
+        return [user.first_name, user.last_name, user.email].some(
+          (element: any) => {
+            return element.toUpperCase().includes(value.toUpperCase());
+          }
+        );
+      });
     }
     setSearchResult(res);
   }
@@ -84,19 +87,21 @@ export function UserModal(props: any) {
               onSearch={handleSearch}
               onSelect={addUser}
             >
-              {searchResult.map((user: any) => (
-                <Option
-                  key={user.id}
-                  value={`${user.first_name} ${user.last_name}`}
-                >
-                  <div style={{ display: 'flex' }}>
-                    <p>{`${user.first_name} ${user.last_name}`}</p>
-                    <span style={{ marginLeft: 16, color: 'grey' }}>
-                      {user.email}
-                    </span>
-                  </div>
-                </Option>
-              ))}
+              {searchResult.map((user: any) => {
+                return (
+                  <Option
+                    key={user.id}
+                    value={`${user.first_name} ${user.last_name}`}
+                  >
+                    <div style={{ display: 'flex' }}>
+                      <p>{`${user.first_name} ${user.last_name}`}</p>
+                      <span style={{ marginLeft: 16, color: 'grey' }}>
+                        {user.email}
+                      </span>
+                    </div>
+                  </Option>
+                );
+              })}
             </AutoComplete>
           ) : (
             <p
@@ -111,25 +116,29 @@ export function UserModal(props: any) {
         <List
           itemLayout="horizontal"
           dataSource={projectUsersData.Project.Users}
-          renderItem={(item: any, index: any) => (
-            <List.Item
-              onMouseEnter={() => setHoveredItemIndex(index)}
-              onMouseLeave={() => setHoveredItemIndex(null)}
-              actions={[
-                hoveredItemIndex === index && (
-                  <a href="/#" onClick={() => removeUser(item.id)}>
-                    Delete
-                  </a>
-                ),
-              ]}
-            >
-              <List.Item.Meta
-                avatar={<Avatar src={item.avatar} />}
-                title={`${item.first_name} ${item.last_name}`}
-                description={item.email}
-              />
-            </List.Item>
-          )}
+          renderItem={(item: User, index: any) => {
+            console.log({ item }, { index });
+
+            return (
+              <List.Item
+                onMouseEnter={() => setHoveredItemIndex(index)}
+                onMouseLeave={() => setHoveredItemIndex(null)}
+                actions={[
+                  hoveredItemIndex === index && (
+                    <a href="/#" onClick={() => removeUser(item.id)}>
+                      Delete
+                    </a>
+                  ),
+                ]}
+              >
+                <List.Item.Meta
+                  avatar={<Avatar src={item.avatar} />}
+                  title={`${item.first_name} ${item.last_name}`}
+                  description={item.email}
+                />
+              </List.Item>
+            );
+          }}
         />
       </Modal>
     </div>

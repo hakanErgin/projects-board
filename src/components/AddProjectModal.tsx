@@ -2,9 +2,12 @@ import React, { useState } from 'react';
 import { useQuery, useMutation, gql } from '@apollo/client';
 import { Modal, Button, Input, Select } from 'antd';
 import { GET_ENTERPRISES, CREATE_PROJECT } from '../gql';
+import { Enterprise, Props } from '../types';
 const { Option } = Select;
 
-export function AddProjectModal(props: any) {
+export function AddProjectModal(props: Props) {
+  console.log(props);
+
   const [selectedProjectName, setSelectedProjectName] = useState('');
   const [selectedEnterpriseId, setSelectedEnterpriseId] = useState('');
 
@@ -43,7 +46,7 @@ export function AddProjectModal(props: any) {
   if (enterprisesError || projectCreateError) return <p>Error</p>;
 
   // component logic functions
-  function onEnterpriseChange(value: any) {
+  function onEnterpriseChange(value: string) {
     setSelectedEnterpriseId(value);
   }
   function handleAddProject() {
@@ -76,7 +79,9 @@ export function AddProjectModal(props: any) {
       >
         <Input
           placeholder="e.g: Spotify"
-          onChange={(e: any) => setSelectedProjectName(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            setSelectedProjectName(e.target.value);
+          }}
         />
         <Select
           showSearch
@@ -88,11 +93,13 @@ export function AddProjectModal(props: any) {
             option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
           }
         >
-          {enterprisesData.allEnterprises.map((enterprise: any) => (
-            <Option value={enterprise.id} key={enterprise.id}>
-              {enterprise.name}
-            </Option>
-          ))}
+          {enterprisesData.allEnterprises.map((enterprise: Enterprise) => {
+            return (
+              <Option value={enterprise.id} key={enterprise.id}>
+                {enterprise.name}
+              </Option>
+            );
+          })}
         </Select>
       </Modal>
     </div>

@@ -7,9 +7,10 @@ import {
   GET_PROJECTS,
 } from '../gql';
 import { Modal, Button, Input, Select } from 'antd';
+import { OncompletedProject, Props, Enterprise } from '../types';
 const { Option } = Select;
 
-export function EditProjectModal(props: any) {
+export function EditProjectModal(props: Props) {
   const [selectedProjectName, setSelectedProjectName] = useState('');
   const [selectedEnterpriseId, setSelectedEnterpriseId] = useState('');
 
@@ -29,7 +30,7 @@ export function EditProjectModal(props: any) {
     GET_PROJECT,
     {
       variables: { id: selectedProjectId },
-      onCompleted: (data: any) => {
+      onCompleted: (data: OncompletedProject) => {
         setSelectedProjectName(data.Project.name);
         setSelectedEnterpriseId(data.Project.Enterprise.id);
       },
@@ -46,7 +47,7 @@ export function EditProjectModal(props: any) {
   if (enterprisesError || projectError || projectEditError) return <p>Error</p>;
 
   // component logic functions
-  function onEnterpriseChange(value: any) {
+  function onEnterpriseChange(value: string) {
     setSelectedEnterpriseId(value);
   }
   function handleEditProject() {
@@ -96,7 +97,7 @@ export function EditProjectModal(props: any) {
               option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
             }
           >
-            {enterprisesData.allEnterprises.map((enterprise: any) => (
+            {enterprisesData.allEnterprises.map((enterprise: Enterprise) => (
               <Option value={enterprise.id} key={enterprise.id}>
                 {enterprise.name}
               </Option>
