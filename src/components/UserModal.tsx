@@ -1,16 +1,27 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 import { AutoComplete, Modal, List, Avatar } from 'antd';
-import { GET_USERS, GET_USERS_BY_PROJECT, UPDATE_USER } from '../gql/';
-
+import {
+  GET_USERS,
+  GET_USERS_BY_PROJECT,
+  UPDATE_USER,
+  GET_PROJECTS,
+} from '../gql/';
 const { Option } = AutoComplete;
 
 export function UserModal(props: any) {
-  const { isUserModalVisible, setIsUserModalVisible } = props;
   const [hoveredItemIndex, setHoveredItemIndex] = useState(null);
   const [isSearchBarVisible, setIsSearchBarVisible] = useState(false);
-  const [result, setResult] = useState<string[]>([]);
-  const { loading, error, data } = useQuery(GET_USERS_BY_PROJECT, {
+  const [searchResult, setSearchResult] = useState<string[]>([]);
+
+  const { isUserModalVisible, setIsUserModalVisible } = props;
+
+  // gpl api hooks
+  const {
+    loading: projectUsersLoading,
+    error: projectUsersError,
+    data: projectUsersData,
+  } = useQuery(GET_USERS_BY_PROJECT, {
     variables: { id: props.selectedProjectId },
   });
   const {
@@ -18,32 +29,34 @@ export function UserModal(props: any) {
     error: usersError,
     data: usersData,
   } = useQuery(GET_USERS);
-
   const [updateUser] = useMutation(UPDATE_USER, {
     refetchQueries: [
       {
         query: GET_USERS_BY_PROJECT,
         variables: { id: props.selectedProjectId },
       },
+      {
+        query: GET_PROJECTS,
+      },
     ],
   });
 
-  if (loading || usersLoading) return <p>Loading...</p>;
-  if (error || usersError) return <p>Error</p>;
+  // making sure fetched data is ready
+  if (projectUsersLoading || usersLoading) return <p>Loading...</p>;
+  if (projectUsersError || usersError) return <p>Error</p>;
 
+  // component logic functions
   function removeUser(userId: any) {
-    return updateUser({
+    updateUser({
       variables: { id: userId, project_id: null },
     });
   }
-
-  const onSelect = (_value: string, option: any) => {
+  function addUser(_value: string, option: any) {
     updateUser({
       variables: { id: option.key, project_id: props.selectedProjectId },
     });
-  };
-
-  const handleSearch = (value: string) => {
+  }
+  function handleSearch(value: string) {
     let res: string[] = [];
     if (!value) {
       res = [];
@@ -54,9 +67,8 @@ export function UserModal(props: any) {
         )
       );
     }
-
-    setResult(res);
-  };
+    setSearchResult(res);
+  }
 
   return (
     <div className="UserModal">
@@ -70,9 +82,9 @@ export function UserModal(props: any) {
               style={{ width: '100%' }}
               placeholder="ex: firstname.lastname@provider.com"
               onSearch={handleSearch}
-              onSelect={onSelect}
+              onSelect={addUser}
             >
-              {result.map((user: any) => (
+              {searchResult.map((user: any) => (
                 <Option
                   key={user.id}
                   value={`${user.first_name} ${user.last_name}`}
@@ -98,7 +110,7 @@ export function UserModal(props: any) {
       >
         <List
           itemLayout="horizontal"
-          dataSource={data.Project.Users}
+          dataSource={projectUsersData.Project.Users}
           renderItem={(item: any, index: any) => (
             <List.Item
               onMouseEnter={() => setHoveredItemIndex(index)}

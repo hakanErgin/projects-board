@@ -11,7 +11,7 @@ export function AddProjectModal(props: any) {
 
   const { isAddProjectModalVisible, setIsAddProjectModalVisible } = props;
 
-  // api call hooks
+  // gpl api hooks
   const {
     loading: enterprisesLoading,
     error: enterprisesError,
@@ -26,7 +26,6 @@ export function AddProjectModal(props: any) {
 
   if (enterprisesLoading || projectCreateLoading) return <p>Loading...</p>;
   if (enterprisesError || projectCreateError) return <p>Error</p>;
-  const { allEnterprises } = enterprisesData;
 
   // component logic functions
   function onEnterpriseChange(value: any) {
@@ -73,7 +72,7 @@ export function AddProjectModal(props: any) {
             option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
           }
         >
-          {allEnterprises.map((enterprise: any) => (
+          {enterprisesData.allEnterprises.map((enterprise: any) => (
             <Option value={enterprise.id} key={enterprise.id}>
               {enterprise.name}
             </Option>

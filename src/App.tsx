@@ -23,7 +23,7 @@ function App() {
     false
   );
 
-  // api call hooks
+  // gpl api hooks
   const {
     loading: projectsLoading,
     error: projectsError,
@@ -36,7 +36,6 @@ function App() {
   // making sure fetched data is ready
   if (projectsLoading) return <p>Loading...</p>;
   if (projectsError) return <p>Error</p>;
-  const { allProjects } = projectsData;
 
   // modal visibility functions
   function showAddProjectModal() {
@@ -91,7 +90,7 @@ function App() {
         ]}
         className="ProjectList"
         itemLayout="horizontal"
-        dataSource={allProjects}
+        dataSource={projectsData.allProjects}
         rowKey={'id'}
         renderItem={(item: any) => {
           return (

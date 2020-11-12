@@ -14,7 +14,7 @@ export function EditProjectModal(props: any) {
     setIsEditProjectModalVisible,
   } = props;
 
-  // api call hooks
+  // gpl api hooks
   const {
     loading: enterprisesLoading,
     error: enterprisesError,
@@ -39,7 +39,6 @@ export function EditProjectModal(props: any) {
   if (enterprisesLoading || projectLoading || projectEditLoading)
     return <p>Loading...</p>;
   if (enterprisesError || projectError || projectEditError) return <p>Error</p>;
-  const { allEnterprises } = enterprisesData;
 
   // component logic functions
   function onEnterpriseChange(value: any) {
@@ -87,7 +86,7 @@ export function EditProjectModal(props: any) {
               option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
             }
           >
-            {allEnterprises.map((enterprise: any) => (
+            {enterprisesData.allEnterprises.map((enterprise: any) => (
               <Option value={enterprise.id} key={enterprise.id}>
                 {enterprise.name}
               </Option>
