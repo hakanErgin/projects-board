@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 import { AutoComplete, Modal, List, Avatar } from 'antd';
-import { GET_ALL_USERS, GET_USERS_BY_PROJECT, UPDATE_USER } from '../gql/';
+import { GET_USERS, GET_USERS_BY_PROJECT, UPDATE_USER } from '../gql/';
 
 const { Option } = AutoComplete;
 
@@ -17,7 +17,7 @@ export function UserModal(props: any) {
     loading: usersLoading,
     error: usersError,
     data: usersData,
-  } = useQuery(GET_ALL_USERS);
+  } = useQuery(GET_USERS);
 
   const [updateUser] = useMutation(UPDATE_USER, {
     refetchQueries: [

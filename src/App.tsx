@@ -40,18 +40,18 @@ function App() {
   function showModal() {
     setIsProjectModalVisible(true);
   }
-  function showUserModal(project_id: any) {
-    setselectedProjectId(project_id);
+  function showUserModal(projectId: any) {
+    setselectedProjectId(projectId);
     setIsUserModalVisible(true);
   }
-  function showEditProjectModal(project_id: any) {
-    setselectedProjectId(project_id);
+  function showEditProjectModal(projectId: any) {
+    setselectedProjectId(projectId);
     setIsEditProjectModalVisible(true);
   }
-  function removeProject(project_id: any) {
+  function removeProject(projectId: any) {
     deleteProject({
       variables: {
-        id: project_id,
+        id: projectId,
       },
     });
   }
