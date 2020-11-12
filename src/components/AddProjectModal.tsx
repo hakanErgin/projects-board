@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 import { Modal, Button, Input, Select } from 'antd';
-import { get_random_id } from '../helper_functions';
 import { GET_ENTERPRISES, CREATE_PROJECT, GET_PROJECTS } from '../gql';
 const { Option } = Select;
 
@@ -34,7 +33,8 @@ export function AddProjectModal(props: any) {
   function handleAddProject() {
     addProject({
       variables: {
-        id: get_random_id(),
+        // mocking a unique id
+        id: Date.now(),
         name: selectedProjectName,
         enterprise_id: selectedEnterpriseId,
       },

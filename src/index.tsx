@@ -32,14 +32,14 @@ const client = new ApolloClient({
   uri: 'http://localhost:5000/graphql',
   cache: cache,
   // overriding cache
-  defaultOptions: {
-    query: {
-      fetchPolicy: 'no-cache',
-    },
-    mutate: {
-      fetchPolicy: 'no-cache',
-    },
-  },
+  // defaultOptions: {
+  //   query: {
+  //     fetchPolicy: 'no-cache',
+  //   },
+  //   mutate: {
+  //     fetchPolicy: 'no-cache',
+  //   },
+  // },
 });
 
 ReactDOM.render(

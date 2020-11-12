@@ -30,6 +30,7 @@ function App() {
     data: projectsData,
   } = useQuery(GET_PROJECTS);
   const [removeProject] = useMutation(REMOVE_PROJECT, {
+    fetchPolicy: 'no-cache',
     refetchQueries: [{ query: GET_PROJECTS }],
   });
 
@@ -52,6 +53,8 @@ function App() {
 
   // component logic functions
   function handleRemoveProject(projectId: any) {
+    console.log(projectId);
+
     removeProject({
       variables: {
         id: projectId,
