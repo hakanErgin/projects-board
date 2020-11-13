@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
-import { AutoComplete, Modal, List, Avatar } from 'antd';
+import { AutoComplete, Modal, List, Avatar, Input } from 'antd';
+import { UserAddOutlined } from '@ant-design/icons';
 import {
   GET_USERS,
   GET_USERS_BY_PROJECT,
@@ -8,6 +9,7 @@ import {
   GET_PROJECTS,
 } from '../gql/';
 import { Props, User } from '../types';
+import './ModalStyles.css';
 const { Option } = AutoComplete;
 
 export function UserModal(props: Props) {
@@ -43,7 +45,7 @@ export function UserModal(props: Props) {
   });
 
   // making sure fetched data is ready
-  if (projectUsersLoading || usersLoading) return <p>Loading...</p>;
+  if (projectUsersLoading || usersLoading) return null;
   if (projectUsersError || usersError) return <p>Error</p>;
 
   // component logic functions
@@ -76,16 +78,17 @@ export function UserModal(props: Props) {
   return (
     <div className="UserModal">
       <Modal
-        title="Add User"
+        className={'Modal'}
+        title="Users settings"
         visible={isUserModalVisible}
         onCancel={() => setIsUserModalVisible(false)}
         footer={
           isSearchBarVisible ? (
             <AutoComplete
-              style={{ width: '100%' }}
-              placeholder="ex: firstname.lastname@provider.com"
+              className={'autoCompleteBox'}
               onSearch={handleSearch}
               onSelect={addUser}
+              placeholder="ex: firstname.lastname@provider.com"
             >
               {searchResult.map((user: any) => {
                 return (
@@ -93,19 +96,18 @@ export function UserModal(props: Props) {
                     key={user.id}
                     value={`${user.first_name} ${user.last_name}`}
                   >
-                    <div style={{ display: 'flex' }}>
+                    <div className={'searchOption'}>
                       <p>{`${user.first_name} ${user.last_name}`}</p>
-                      <span style={{ marginLeft: 16, color: 'grey' }}>
-                        {user.email}
-                      </span>
+                      <span>{user.email}</span>
                     </div>
                   </Option>
                 );
               })}
+              <Input suffix={<UserAddOutlined />} />
             </AutoComplete>
           ) : (
             <p
-              style={{ textAlign: 'center' }}
+              className={'inviteText'}
               onClick={() => setIsSearchBarVisible(true)}
             >
               Invite new users

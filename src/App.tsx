@@ -35,7 +35,7 @@ function App() {
   });
 
   // making sure fetched data is ready
-  if (projectsLoading) return <p>Loading...</p>;
+  if (projectsLoading) return null;
   if (projectsError) return <p>Error</p>;
 
   // modal visibility functions
@@ -94,11 +94,14 @@ function App() {
           setIsEditProjectModalVisible={setIsEditProjectModalVisible}
         />
       )}
+      <div className={'WelcomeTextContainer'}>
+        <h1 className={'WelcomeText'}>Welcome to your projects board</h1>
+      </div>
       <List
         header={[
-          <div>
-            Header
-            <PlusOutlined onClick={showAddProjectModal} />
+          <div className={'Header'}>
+            <h2 className={'HeaderTitle'}>Projects</h2>
+            <PlusOutlined className={'Icon'} onClick={showAddProjectModal} />
           </div>,
         ]}
         className="ProjectList"
@@ -109,16 +112,35 @@ function App() {
           return (
             <List.Item
               key={item.id}
+              className={'ListItem'}
               actions={[
-                <UserSwitchOutlined onClick={() => showUserModal(item.id)} />,
-                <EditOutlined onClick={() => showEditProjectModal(item.id)} />,
-                <DeleteOutlined onClick={() => handleRemoveProject(item.id)} />,
+                <UserSwitchOutlined
+                  className={'Icon'}
+                  onClick={() => showUserModal(item.id)}
+                />,
+                <EditOutlined
+                  className={'Icon'}
+                  onClick={() => showEditProjectModal(item.id)}
+                />,
+                <DeleteOutlined
+                  className={'Icon'}
+                  onClick={() => handleRemoveProject(item.id)}
+                />,
               ]}
             >
               <List.Item.Meta
                 key={item.id}
-                title={<p key={item.id}>{item.name}</p>}
-                description={item.Users.length + ' collobrators'}
+                className={'ListItem'}
+                title={
+                  <p className={'ProjectTitles'} key={item.id}>
+                    {item.name}
+                  </p>
+                }
+                description={
+                  <p className={'ProjectDescriptions'}>
+                    {item.Users.length + ' collaborators'}
+                  </p>
+                }
               />
             </List.Item>
           );

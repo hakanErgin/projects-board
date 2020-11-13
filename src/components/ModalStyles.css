@@ -1,0 +1,110 @@
+/* for all modals and buttons in them */
+.Modal div,
+.Modal button {
+  border-radius: 20px;
+  /* max-height: 800px;
+  overflow-y: auto; */
+}
+div.ant-modal-footer {
+  border-top: 0px;
+}
+.ant-modal-body {
+  padding-top: 10px !important;
+}
+.ant-modal-footer button {
+  align-self: flex-end;
+}
+body > div:nth-child(8) > div > div.ant-modal-mask {
+  background-color: rgba(255, 255, 255, 0.85);
+}
+.ant-modal-content .ant-modal-header {
+  border-bottom: 0px;
+}
+#projectTitle,
+#enterpriseTitle {
+  font-size: 15px;
+}
+/* modal list length */
+body
+  > div
+  > div
+  > div.ant-modal-wrap
+  > div
+  > div.ant-modal-content
+  > div.ant-modal-body {
+  max-height: 650px;
+  overflow-y: auto;
+}
+
+/* project modal */
+.projectInputBox {
+  margin-top: 20;
+}
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 5px 15px 5px;
+}
+
+/* user modal */
+/* avatar */
+div.ant-list-item-meta-avatar {
+  margin-right: 10px;
+  border: 1px solid;
+  border-color: rgba(53, 53, 53, 0.1);
+}
+/* user name */
+div.ant-list-item-meta-content > h4 {
+  font-size: 14px;
+}
+/* user emails */
+div.ant-list-item-meta-content > div {
+  font-size: 12px;
+  color: rgba(53, 53, 53, 0.8);
+}
+/* user settings title */
+div.ant-modal-content > div.ant-modal-header > div {
+  font-size: 18px;
+}
+/* users avatar and user data container in li */
+body
+  > div:nth-child(8)
+  > div
+  > div.ant-modal-wrap
+  > div
+  > div.ant-modal-content
+  > div.ant-modal-body
+  > div
+  > div
+  > div
+  > ul
+  > li
+  > div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.inviteText {
+  align-self: center;
+  margin-bottom: 0px;
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.85);
+}
+.searchOption {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.searchOption > span {
+  color: gray;
+  font-size: 12px;
+}
+.autoCompleteBox {
+  text-align: start;
+  align-self: center;
+  width: 75%;
+}
+.ant-modal-footer {
+  display: flex;
+  flex-direction: column;
+}
