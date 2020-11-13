@@ -85,6 +85,7 @@ export function UserModal(props: Props) {
         footer={
           isSearchBarVisible ? (
             <AutoComplete
+              autoFocus={true}
               className={'autoCompleteBox'}
               onSearch={handleSearch}
               onSelect={addUser}
@@ -103,7 +104,6 @@ export function UserModal(props: Props) {
                   </Option>
                 );
               })}
-              <Input suffix={<UserAddOutlined />} />
             </AutoComplete>
           ) : (
             <p
