@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation, gql } from '@apollo/client';
-import { Modal, Button, Input, Select } from 'antd';
+import { Modal, Button, Input, Select, Typography } from 'antd';
 import { GET_ENTERPRISES, CREATE_PROJECT } from '../gql';
 import { Enterprise, Props } from '../types';
+import './ProjectModal.css';
 const { Option } = Select;
+const { Text } = Typography;
 
 export function AddProjectModal(props: Props) {
   const [selectedProjectName, setSelectedProjectName] = useState<string>('');
@@ -65,6 +67,11 @@ export function AddProjectModal(props: Props) {
   return (
     <div className="AddProjectModal">
       <Modal
+        maskStyle={{
+          backgroundColor: 'rgb(255, 255, 255)',
+          opacity: 0.85,
+        }}
+        className={'Modal'}
         title="Add Project"
         visible={isAddProjectModalVisible}
         onOk={handleAddProject}
@@ -75,30 +82,41 @@ export function AddProjectModal(props: Props) {
           </Button>
         }
       >
-        <Input
-          placeholder="e.g: Spotify"
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            setSelectedProjectName(e.target.value);
-          }}
-        />
-        <Select
-          showSearch
-          style={{ width: '100%' }}
-          placeholder={'Quop'}
-          optionFilterProp="children"
-          onChange={onEnterpriseChange}
-          filterOption={(input, option: any) =>
-            option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-          }
-        >
-          {enterprisesData.allEnterprises.map((enterprise: Enterprise) => {
-            return (
-              <Option value={enterprise.id} key={enterprise.id}>
-                {enterprise.name}
-              </Option>
-            );
-          })}
-        </Select>
+        <div className={'formContainer'}>
+          <Text id="projectTitle" strong>
+            Project's name
+          </Text>
+          <Input
+            className={'projectInputBox'}
+            placeholder="e.g: Spotify"
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              setSelectedProjectName(e.target.value);
+            }}
+          />
+        </div>
+        <div className={'formContainer'}>
+          <Text id="enterpriseTitle" strong>
+            Enterprise
+          </Text>
+          <Select
+            showSearch
+            style={{ width: '100%' }}
+            placeholder={'Quop'}
+            optionFilterProp="children"
+            onChange={onEnterpriseChange}
+            filterOption={(input, option: any) =>
+              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            }
+          >
+            {enterprisesData.allEnterprises.map((enterprise: Enterprise) => {
+              return (
+                <Option value={enterprise.id} key={enterprise.id}>
+                  {enterprise.name}
+                </Option>
+              );
+            })}
+          </Select>
+        </div>
       </Modal>
     </div>
   );

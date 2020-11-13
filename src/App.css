@@ -5,7 +5,7 @@ body {
 }
 
 .App {
-  padding-top: 5%;
+  padding-top: 10%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -63,7 +63,7 @@ body {
   padding: 8px 0;
 }
 
-.Welcome {
-  position: relative;
-  left: 0px;
+.WelcomeText {
+  width: 75%;
+  font-weight: 600;
 }

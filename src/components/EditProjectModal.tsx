@@ -6,8 +6,10 @@ import {
   UPDATE_PROJECT,
   GET_PROJECTS,
 } from '../gql';
-import { Modal, Button, Input, Select } from 'antd';
+import { Modal, Button, Input, Select, Typography } from 'antd';
 import { OncompletedProject, Props, Enterprise } from '../types';
+import './ProjectModal.css';
+const { Text } = Typography;
 const { Option } = Select;
 
 export function EditProjectModal(props: Props) {
@@ -73,6 +75,11 @@ export function EditProjectModal(props: Props) {
     return (
       <div className="EditProjectModal">
         <Modal
+          maskStyle={{
+            backgroundColor: 'rgb(255, 255, 255)',
+            opacity: 0.85,
+          }}
+          className={'Modal'}
           title={`Edit ${selectedProjectName}`}
           visible={isEditProjectModalVisible}
           onOk={handleEditProject}
@@ -83,26 +90,38 @@ export function EditProjectModal(props: Props) {
             </Button>
           }
         >
-          <Input
-            defaultValue={selectedProjectName}
-            onChange={(e: any) => setSelectedProjectName(e.target.value)}
-          />
-          <Select
-            value={selectedEnterpriseId}
-            showSearch
-            style={{ width: '100%' }}
-            optionFilterProp="children"
-            onChange={onEnterpriseChange}
-            filterOption={(input, option: any) =>
-              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-            }
-          >
-            {enterprisesData.allEnterprises.map((enterprise: Enterprise) => (
-              <Option value={enterprise.id} key={enterprise.id}>
-                {enterprise.name}
-              </Option>
-            ))}
-          </Select>
+          <div className={'formContainer'}>
+            <Text id="projectTitle" strong>
+              Project's name
+            </Text>
+
+            <Input
+              defaultValue={selectedProjectName}
+              onChange={(e: any) => setSelectedProjectName(e.target.value)}
+            />
+          </div>
+          <div className={'formContainer'}>
+            <Text id="enterpriseTitle" strong>
+              Enterprise
+            </Text>
+
+            <Select
+              value={selectedEnterpriseId}
+              showSearch
+              style={{ width: '100%' }}
+              optionFilterProp="children"
+              onChange={onEnterpriseChange}
+              filterOption={(input, option: any) =>
+                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }
+            >
+              {enterprisesData.allEnterprises.map((enterprise: Enterprise) => (
+                <Option value={enterprise.id} key={enterprise.id}>
+                  {enterprise.name}
+                </Option>
+              ))}
+            </Select>
+          </div>
         </Modal>
       </div>
     );

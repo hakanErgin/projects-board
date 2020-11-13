@@ -94,7 +94,9 @@ function App() {
           setIsEditProjectModalVisible={setIsEditProjectModalVisible}
         />
       )}
-      <h1 className={'Welcome'}>Welcome to your projects board</h1>
+      <div>
+        <h1 className={'WelcomeText'}>Welcome to your projects board</h1>
+      </div>
       <List
         header={[
           <div className={'Header'}>
