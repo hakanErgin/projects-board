@@ -88,7 +88,6 @@ export function UserModal(props: Props) {
               className={'autoCompleteBox'}
               onSearch={handleSearch}
               onSelect={addUser}
-              suffixIcon={<UserAddOutlined />}
               placeholder="ex: firstname.lastname@provider.com"
             >
               {searchResult.map((user: any) => {
