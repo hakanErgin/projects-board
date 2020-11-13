@@ -47,6 +47,18 @@ body {
   color: rgb(53, 53, 53);
 }
 
+#root
+  > div
+  > div.ant-list.ant-list-split.ProjectList
+  > div.ant-spin-nested-loading
+  > div
+  > ul
+  > li
+  > ul
+  > li:nth-child(3) {
+  padding-right: 0;
+}
+
 .ProjectTitles {
   font-size: 20px;
   margin-bottom: 0px;

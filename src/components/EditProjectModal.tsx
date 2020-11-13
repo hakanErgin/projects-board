@@ -44,8 +44,7 @@ export function EditProjectModal(props: Props) {
   ] = useMutation(UPDATE_PROJECT);
 
   // making sure fetched data is ready
-  if (enterprisesLoading || projectLoading || projectEditLoading)
-    return <p>Loading...</p>;
+  if (enterprisesLoading || projectLoading || projectEditLoading) return null;
   if (enterprisesError || projectError || projectEditError) return <p>Error</p>;
 
   // component logic functions

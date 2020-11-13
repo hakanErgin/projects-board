@@ -42,7 +42,7 @@ export function AddProjectModal(props: Props) {
     },
   });
 
-  if (enterprisesLoading || projectCreateLoading) return <p>Loading...</p>;
+  if (enterprisesLoading || projectCreateLoading) return null;
   if (enterprisesError || projectCreateError) return <p>Error</p>;
 
   // component logic functions
