@@ -3,7 +3,7 @@ import { useQuery, useMutation, gql } from '@apollo/client';
 import { Modal, Button, Input, Select, Typography } from 'antd';
 import { GET_ENTERPRISES, CREATE_PROJECT } from '../gql';
 import { Enterprise, Props } from '../types';
-import './ProjectModal.css';
+import './ModalStyles.css';
 const { Option } = Select;
 const { Text } = Typography;
 
@@ -67,10 +67,6 @@ export function AddProjectModal(props: Props) {
   return (
     <div className="AddProjectModal">
       <Modal
-        maskStyle={{
-          backgroundColor: 'rgb(255, 255, 255)',
-          opacity: 0.85,
-        }}
         className={'Modal'}
         title="Add Project"
         visible={isAddProjectModalVisible}
@@ -100,7 +96,6 @@ export function AddProjectModal(props: Props) {
           </Text>
           <Select
             showSearch
-            style={{ width: '100%' }}
             placeholder={'Quop'}
             optionFilterProp="children"
             onChange={onEnterpriseChange}

@@ -8,7 +8,7 @@ import {
 } from '../gql';
 import { Modal, Button, Input, Select, Typography } from 'antd';
 import { OncompletedProject, Props, Enterprise } from '../types';
-import './ProjectModal.css';
+import './ModalStyles.css';
 const { Text } = Typography;
 const { Option } = Select;
 
@@ -75,10 +75,6 @@ export function EditProjectModal(props: Props) {
     return (
       <div className="EditProjectModal">
         <Modal
-          maskStyle={{
-            backgroundColor: 'rgb(255, 255, 255)',
-            opacity: 0.85,
-          }}
           className={'Modal'}
           title={`Edit ${selectedProjectName}`}
           visible={isEditProjectModalVisible}
@@ -108,7 +104,6 @@ export function EditProjectModal(props: Props) {
             <Select
               value={selectedEnterpriseId}
               showSearch
-              style={{ width: '100%' }}
               optionFilterProp="children"
               onChange={onEnterpriseChange}
               filterOption={(input, option: any) =>

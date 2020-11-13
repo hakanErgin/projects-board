@@ -1,6 +1,7 @@
 @import '~antd/dist/antd.css';
 
 body {
+  font-family: 'Open Sans';
   background-color: rgb(243, 245, 251);
 }
 
@@ -14,7 +15,7 @@ body {
 .ProjectList {
   padding: 5px 25px 10px 25px;
   background-color: white;
-  min-width: 450px;
+  min-width: 475px;
   border-radius: 20px;
   box-shadow: 0px 4px 10px 0px rgb(211, 210, 210);
 }
@@ -39,8 +40,6 @@ body {
   border-bottom: 0px;
   font-size: 17px;
   margin-bottom: 0px;
-  font-family: Arial, Helvetica, sans-serif Impact, Haettenschweiler,
-    'Arial Narrow Bold', sans-serif;
 }
 
 .Icon {
@@ -65,5 +64,11 @@ body {
 
 .WelcomeText {
   width: 75%;
-  font-weight: 600;
+  font-weight: 1000;
+  font-size: 36px;
+  line-height: 1.25;
+}
+
+.WelcomeTextContainer {
+  width: 475px;
 }
