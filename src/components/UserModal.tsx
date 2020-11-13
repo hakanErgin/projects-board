@@ -10,7 +10,6 @@ import {
 } from '../gql/';
 import { Props, User } from '../types';
 import './ModalStyles.css';
-import { relative } from 'path';
 const { Option } = AutoComplete;
 
 export function UserModal(props: Props) {
@@ -46,7 +45,7 @@ export function UserModal(props: Props) {
   });
 
   // making sure fetched data is ready
-  if (projectUsersLoading || usersLoading) return <p>Loading...</p>;
+  if (projectUsersLoading || usersLoading) return null;
   if (projectUsersError || usersError) return <p>Error</p>;
 
   // component logic functions
@@ -105,10 +104,7 @@ export function UserModal(props: Props) {
                   </Option>
                 );
               })}
-              {/* <Input
-                
-                suffix={<UserAddOutlined />}
-              /> */}
+              <Input suffix={<UserAddOutlined />} />
             </AutoComplete>
           ) : (
             <p

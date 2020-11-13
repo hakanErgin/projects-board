@@ -50,6 +50,8 @@ body
 /* avatar */
 div.ant-list-item-meta-avatar {
   margin-right: 10px;
+  border: 1px solid;
+  border-color: rgba(53, 53, 53, 0.1);
 }
 /* user name */
 div.ant-list-item-meta-content > h4 {
