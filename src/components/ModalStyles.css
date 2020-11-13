@@ -2,6 +2,8 @@
 .Modal div,
 .Modal button {
   border-radius: 20px;
+  /* max-height: 800px;
+  overflow-y: auto; */
 }
 div.ant-modal-footer {
   border-top: 0px;
@@ -21,6 +23,17 @@ body > div:nth-child(8) > div > div.ant-modal-mask {
 #projectTitle,
 #enterpriseTitle {
   font-size: 15px;
+}
+/* modal list length */
+body
+  > div
+  > div
+  > div.ant-modal-wrap
+  > div
+  > div.ant-modal-content
+  > div.ant-modal-body {
+  max-height: 650px;
+  overflow-y: auto;
 }
 
 /* project modal */

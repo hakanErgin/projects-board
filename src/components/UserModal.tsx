@@ -90,6 +90,7 @@ export function UserModal(props: Props) {
               onSearch={handleSearch}
               onSelect={addUser}
               suffixIcon={<UserAddOutlined />}
+              placeholder="ex: firstname.lastname@provider.com"
             >
               {searchResult.map((user: any) => {
                 return (
@@ -105,7 +106,7 @@ export function UserModal(props: Props) {
                 );
               })}
               {/* <Input
-                placeholder="ex: firstname.lastname@provider.com"
+                
                 suffix={<UserAddOutlined />}
               /> */}
             </AutoComplete>
