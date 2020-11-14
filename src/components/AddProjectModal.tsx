@@ -73,7 +73,12 @@ export function AddProjectModal(props: Props) {
         onOk={handleAddProject}
         onCancel={handleCancel}
         footer={
-          <Button key="submit" type="primary" onClick={handleAddProject}>
+          <Button
+            disabled={selectedProjectName === '' || selectedEnterpriseId === ''}
+            key="submit"
+            type="primary"
+            onClick={handleAddProject}
+          >
             Add Project
           </Button>
         }

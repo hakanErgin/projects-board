@@ -28,16 +28,17 @@ export function EditProjectModal(props: Props) {
     error: enterprisesError,
     data: enterprisesData,
   } = useQuery(GET_ENTERPRISES);
-  const { loading: projectLoading, error: projectError } = useQuery(
-    GET_PROJECT,
-    {
-      variables: { id: selectedProjectId },
-      onCompleted: (data: OncompletedProject) => {
-        setSelectedProjectName(data.Project.name);
-        setSelectedEnterpriseId(data.Project.Enterprise.id);
-      },
-    }
-  );
+  const {
+    loading: projectLoading,
+    error: projectError,
+    data: projectData,
+  } = useQuery(GET_PROJECT, {
+    variables: { id: selectedProjectId },
+    onCompleted: (data: OncompletedProject) => {
+      setSelectedProjectName(data.Project.name);
+      setSelectedEnterpriseId(data.Project.Enterprise.id);
+    },
+  });
   const [
     editProject,
     { loading: projectEditLoading, error: projectEditError },
@@ -70,7 +71,8 @@ export function EditProjectModal(props: Props) {
     setIsEditProjectModalVisible(false);
   }
 
-  if (selectedProjectName !== '') {
+  // if (selectedProjectName !== '') {
+  if (projectData)
     return (
       <div className="EditProjectModal">
         <Modal
@@ -80,7 +82,14 @@ export function EditProjectModal(props: Props) {
           onOk={handleEditProject}
           onCancel={cancelEditProject}
           footer={
-            <Button key="submit" type="primary" onClick={handleEditProject}>
+            <Button
+              disabled={
+                selectedProjectName === '' || selectedEnterpriseId === ''
+              }
+              key="submit"
+              type="primary"
+              onClick={handleEditProject}
+            >
               Edit Project
             </Button>
           }
@@ -91,7 +100,7 @@ export function EditProjectModal(props: Props) {
             </Text>
 
             <Input
-              defaultValue={selectedProjectName}
+              defaultValue={projectData.Project.name}
               onChange={(e: any) => setSelectedProjectName(e.target.value)}
             />
           </div>
@@ -119,5 +128,5 @@ export function EditProjectModal(props: Props) {
         </Modal>
       </div>
     );
-  } else return null;
+  else return null;
 }
