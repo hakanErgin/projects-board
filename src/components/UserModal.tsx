@@ -95,9 +95,10 @@ export function UserModal(props: Props) {
         footer={
           isSearchBarVisible ? (
             <AutoComplete
+              allowClear={true}
               autoFocus={true}
               className={'autoCompleteBox'}
-              onSearch={handleSearch}
+              onChange={handleSearch}
               onSelect={addUser}
               placeholder="ex: firstname.lastname@provider.com"
             >
