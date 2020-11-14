@@ -27,7 +27,7 @@ it('renders correctly', async () => {
             name: 'Second',
             Users: [
               {
-                id: '1',
+                id: '2',
               },
             ],
           },

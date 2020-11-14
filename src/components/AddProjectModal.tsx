@@ -23,6 +23,7 @@ export function AddProjectModal(props: AddProjectModalProps) {
     addProject,
     { loading: projectCreateLoading, error: projectCreateError },
   ] = useMutation(CREATE_PROJECT, {
+    // updating cache instead of having to refetch
     update(cache, { data: { createProject } }) {
       cache.modify({
         fields: {

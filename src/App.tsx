@@ -57,6 +57,7 @@ function App() {
       variables: {
         id: projectId,
       },
+      // updating cache instead of having to refetch
       update: (cache) => {
         const projects: any = cache.readQuery({
           query: GET_PROJECTS,
