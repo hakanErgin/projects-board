@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
-import { AutoComplete, Modal, List, Avatar, Input } from 'antd';
-import { UserAddOutlined } from '@ant-design/icons';
+import { AutoComplete, Modal, List, Avatar } from 'antd';
 import {
   GET_USERS,
   GET_USERS_BY_PROJECT,
