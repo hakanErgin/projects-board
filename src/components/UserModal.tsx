@@ -18,7 +18,7 @@ export function UserModal(props: Props) {
 
   const { isUserModalVisible, setIsUserModalVisible } = props;
 
-  // gpl api hooks
+  // gql api hooks
   const {
     loading: projectUsersLoading,
     error: projectUsersError,

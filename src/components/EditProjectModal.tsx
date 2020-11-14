@@ -22,7 +22,7 @@ export function EditProjectModal(props: Props) {
     setIsEditProjectModalVisible,
   } = props;
 
-  // gpl api hooks
+  // gql api hooks
   const {
     loading: enterprisesLoading,
     error: enterprisesError,

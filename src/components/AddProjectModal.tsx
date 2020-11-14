@@ -13,7 +13,7 @@ export function AddProjectModal(props: Props) {
 
   const { isAddProjectModalVisible, setIsAddProjectModalVisible } = props;
 
-  // gpl api hooks
+  // gql api hooks
   const {
     loading: enterprisesLoading,
     error: enterprisesError,

@@ -24,7 +24,7 @@ function App() {
     boolean
   >(false);
 
-  // gpl api hooks
+  // gql api hooks
   const {
     loading: projectsLoading,
     error: projectsError,
