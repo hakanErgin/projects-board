@@ -16,15 +16,15 @@ function App() {
   const [selectedProjectId, setselectedProjectId] = useState<string>('');
 
   // modal visibilty states
-  const [isAddProjectModalVisible, setIsAddProjectModalVisible] = useState<
-    boolean
-  >(false);
-  const [isUserModalVisible, setIsUserModalVisible] = useState<boolean>(false);
-  const [isEditProjectModalVisible, setIsEditProjectModalVisible] = useState<
-    boolean
-  >(false);
+  const [isAddProjectModalVisible, setIsAddProjectModalVisible] = useState(
+    false
+  );
+  const [isUserModalVisible, setIsUserModalVisible] = useState(false);
+  const [isEditProjectModalVisible, setIsEditProjectModalVisible] = useState(
+    false
+  );
 
-  // gpl api hooks
+  // gql api hooks
   const {
     loading: projectsLoading,
     error: projectsError,
@@ -99,7 +99,7 @@ function App() {
       </div>
       <List
         header={[
-          <div className={'Header'}>
+          <div key={'header'} className={'Header'}>
             <h2 className={'HeaderTitle'}>Projects</h2>
             <PlusOutlined className={'Icon'} onClick={showAddProjectModal} />
           </div>,
@@ -107,11 +107,9 @@ function App() {
         className="ProjectList"
         itemLayout="horizontal"
         dataSource={projectsData.allProjects}
-        rowKey={'id'}
         renderItem={(item: Project) => {
           return (
             <List.Item
-              key={item.id}
               className={'ListItem'}
               actions={[
                 <UserSwitchOutlined
@@ -129,13 +127,8 @@ function App() {
               ]}
             >
               <List.Item.Meta
-                key={item.id}
                 className={'ListItem'}
-                title={
-                  <p className={'ProjectTitles'} key={item.id}>
-                    {item.name}
-                  </p>
-                }
+                title={<p className={'ProjectTitles'}>{item.name}</p>}
                 description={
                   <p className={'ProjectDescriptions'}>
                     {item.Users.length + ' collaborators'}

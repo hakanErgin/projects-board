@@ -1,3 +1,5 @@
+import React, { SetStateAction } from 'react';
+
 export interface Project {
   __typename: string;
   id: string;
@@ -26,12 +28,18 @@ export interface OncompletedProject {
   Project: Project;
 }
 
-export interface Props {
-  selectedProjectId?: string;
-  isAddProjectModalVisible?: boolean;
-  isEditProjectModalVisible?: boolean;
-  isUserModalVisible?: boolean;
-  setIsAddProjectModalVisible?: any;
-  setIsEditProjectModalVisible?: any;
-  setIsUserModalVisible?: any;
+export interface UserModalProps {
+  selectedProjectId: string;
+  isUserModalVisible: boolean;
+  setIsUserModalVisible: React.Dispatch<SetStateAction<boolean>>;
+}
+
+export interface AddProjectModalProps {
+  isAddProjectModalVisible: boolean;
+  setIsAddProjectModalVisible: React.Dispatch<SetStateAction<boolean>>;
+}
+export interface EditProjectModalProps {
+  selectedProjectId: string;
+  isEditProjectModalVisible: boolean;
+  setIsEditProjectModalVisible: React.Dispatch<SetStateAction<boolean>>;
 }
