@@ -99,7 +99,7 @@ function App() {
       </div>
       <List
         header={[
-          <div className={'Header'}>
+          <div key={'header'} className={'Header'}>
             <h2 className={'HeaderTitle'}>Projects</h2>
             <PlusOutlined className={'Icon'} onClick={showAddProjectModal} />
           </div>,
@@ -107,11 +107,9 @@ function App() {
         className="ProjectList"
         itemLayout="horizontal"
         dataSource={projectsData.allProjects}
-        rowKey={'id'}
         renderItem={(item: Project) => {
           return (
             <List.Item
-              key={item.id}
               className={'ListItem'}
               actions={[
                 <UserSwitchOutlined
@@ -129,13 +127,8 @@ function App() {
               ]}
             >
               <List.Item.Meta
-                key={item.id}
                 className={'ListItem'}
-                title={
-                  <p className={'ProjectTitles'} key={item.id}>
-                    {item.name}
-                  </p>
-                }
+                title={<p className={'ProjectTitles'}>{item.name}</p>}
                 description={
                   <p className={'ProjectDescriptions'}>
                     {item.Users.length + ' collaborators'}
