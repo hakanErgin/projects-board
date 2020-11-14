@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { useQuery, useMutation, gql } from '@apollo/client';
 import { Modal, Button, Input, Select, Typography } from 'antd';
 import { GET_ENTERPRISES, CREATE_PROJECT } from '../gql';
-import { Enterprise, Props } from '../types';
+import { Enterprise, AddProjectModalProps } from '../types';
 import './ModalStyles.css';
 const { Option } = Select;
 const { Text } = Typography;
 
-export function AddProjectModal(props: Props) {
+export function AddProjectModal(props: AddProjectModalProps) {
   const [selectedProjectName, setSelectedProjectName] = useState<string>('');
   const [selectedEnterpriseId, setSelectedEnterpriseId] = useState<string>('');
 

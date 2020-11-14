@@ -7,12 +7,16 @@ import {
   GET_PROJECTS,
 } from '../gql';
 import { Modal, Button, Input, Select, Typography } from 'antd';
-import { OncompletedProject, Props, Enterprise } from '../types';
+import {
+  OncompletedProject,
+  EditProjectModalProps,
+  Enterprise,
+} from '../types';
 import './ModalStyles.css';
 const { Text } = Typography;
 const { Option } = Select;
 
-export function EditProjectModal(props: Props) {
+export function EditProjectModal(props: EditProjectModalProps) {
   const [selectedProjectName, setSelectedProjectName] = useState<string>('');
   const [selectedEnterpriseId, setSelectedEnterpriseId] = useState<string>('');
 

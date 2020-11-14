@@ -16,13 +16,13 @@ function App() {
   const [selectedProjectId, setselectedProjectId] = useState<string>('');
 
   // modal visibilty states
-  const [isAddProjectModalVisible, setIsAddProjectModalVisible] = useState<
-    boolean
-  >(false);
-  const [isUserModalVisible, setIsUserModalVisible] = useState<boolean>(false);
-  const [isEditProjectModalVisible, setIsEditProjectModalVisible] = useState<
-    boolean
-  >(false);
+  const [isAddProjectModalVisible, setIsAddProjectModalVisible] = useState(
+    false
+  );
+  const [isUserModalVisible, setIsUserModalVisible] = useState(false);
+  const [isEditProjectModalVisible, setIsEditProjectModalVisible] = useState(
+    false
+  );
 
   // gql api hooks
   const {

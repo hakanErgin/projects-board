@@ -7,11 +7,11 @@ import {
   UPDATE_USER,
   GET_PROJECTS,
 } from '../gql/';
-import { Props, User } from '../types';
+import { UserModalProps, User } from '../types';
 import './ModalStyles.css';
 const { Option } = AutoComplete;
 
-export function UserModal(props: Props) {
+export function UserModal(props: UserModalProps) {
   const [hoveredItemIndex, setHoveredItemIndex] = useState<string | null>(null);
   const [isSearchBarVisible, setIsSearchBarVisible] = useState<boolean>(false);
   const [searchResult, setSearchResult] = useState<string[]>([]);
