@@ -48,6 +48,32 @@ export function UserModal(props: Props) {
   if (projectUsersError || usersError) return <p>Error</p>;
 
   // component logic functions
+  const availableUsers = () => {
+    const { allUsers } = usersData;
+    const collobratingUsersIds = projectUsersData.Project.Users.map(
+      (user: User) => user.id
+    );
+    // eslint-disable-next-line array-callback-return
+    return allUsers.filter((user: User) => {
+      if (!collobratingUsersIds.includes(user.id)) return user;
+    });
+  };
+  function handleSearch(value: string) {
+    let res: string[] = [];
+    if (!value) {
+      res = [];
+    } else {
+      res = availableUsers().filter((user: User) => {
+        return [user.first_name, user.last_name, user.email].some(
+          (element: any) => {
+            return element.toUpperCase().includes(value.toUpperCase());
+          }
+        );
+      });
+    }
+    setSearchResult(res);
+  }
+
   function removeUser(userId: string) {
     updateUser({
       variables: { id: userId, project_id: null },
@@ -57,21 +83,6 @@ export function UserModal(props: Props) {
     updateUser({
       variables: { id: option.key, project_id: props.selectedProjectId },
     });
-  }
-  function handleSearch(value: string) {
-    let res: string[] = [];
-    if (!value) {
-      res = [];
-    } else {
-      res = usersData.allUsers.filter((user: User) => {
-        return [user.first_name, user.last_name, user.email].some(
-          (element: any) => {
-            return element.toUpperCase().includes(value.toUpperCase());
-          }
-        );
-      });
-    }
-    setSearchResult(res);
   }
 
   return (
