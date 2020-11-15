@@ -35,7 +35,7 @@ function App() {
   });
 
   // making sure fetched data is ready
-  if (projectsLoading) return null;
+  if (projectsLoading) return <p id="loading">Loading...</p>;
   if (projectsError) return <p>Error</p>;
 
   // modal visibility functions
