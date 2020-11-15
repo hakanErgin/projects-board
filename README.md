@@ -21,9 +21,10 @@ Install fake graphql server:
 - While in `projects-board` directory, launch the server using `json-graphql-server db.json --p 5000` to server `db.json` on `http://localhost:5000/`
 - In the same directory, using another terminal window; start React client UI using `npm start`
 
-### Other
+_### Other_
 
 Things to improve:
 
 - Code can be structurally improved and DRY'ed. I.e: `addproject` and `editproject` components can be merged
 - More cache updating functions can be added so that we don't have to refetch data
+- Tests
