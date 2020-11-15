@@ -53,14 +53,13 @@ it('renders loading state', async () => {
   // @ts-ignore
   expect(tree.children).toContain('Loading...');
 });
-
 it('renders correctly with mocked data', async () => {
   const component = renderer.create(
     <MockedProvider mocks={[projectsMock]} addTypename={false}>
       <App />
     </MockedProvider>
   );
-  await wait(0);
+  await act(wait);
   expect(component).toMatchSnapshot();
 });
 it('should show 2 elems', async () => {
@@ -69,7 +68,7 @@ it('should show 2 elems', async () => {
       <App />
     </MockedProvider>
   );
-  await wait(0);
+  await act(wait);
   const ul = component.root.findByType('ul');
   expect(ul.children.length).toBe(2);
 });
