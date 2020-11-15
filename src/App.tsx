@@ -122,6 +122,7 @@ function App() {
                   onClick={() => showEditProjectModal(item.id)}
                 />,
                 <DeleteOutlined
+                  id={'deleteButton'}
                   className={'Icon'}
                   onClick={() => handleRemoveProject(item.id)}
                 />,

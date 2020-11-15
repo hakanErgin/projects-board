@@ -2,7 +2,7 @@ import React from 'react';
 import renderer, { act } from 'react-test-renderer';
 import App from './App';
 import { MockedProvider } from '@apollo/client/testing';
-import { GET_PROJECTS, REMOVE_PROJECT } from './gql/';
+import { GET_PROJECTS } from './gql/';
 import wait from 'waait';
 
 const projectsMock = {
@@ -34,23 +34,14 @@ const projectsMock = {
     },
   },
 };
-const deleteProjectMock = {
-  request: {
-    query: REMOVE_PROJECT,
-    variables: { id: '1' },
-  },
-  result: {
-    data: {},
-  },
-};
-it('renders loading state', async () => {
+
+it('renders loading state', () => {
   const component = renderer.create(
     <MockedProvider mocks={[projectsMock]} addTypename={false}>
       <App />
     </MockedProvider>
   );
-  const tree = component.toJSON();
-  // @ts-ignore
+  const tree: any = component.toJSON();
   expect(tree.children).toContain('Loading...');
 });
 it('renders correctly with mocked data', async () => {
@@ -62,7 +53,7 @@ it('renders correctly with mocked data', async () => {
   await act(wait);
   expect(component).toMatchSnapshot();
 });
-it('should show 2 elems', async () => {
+it('should show 2 elems fetched', async () => {
   const component = renderer.create(
     <MockedProvider mocks={[projectsMock]} addTypename={false}>
       <App />
@@ -71,14 +62,4 @@ it('should show 2 elems', async () => {
   await act(wait);
   const ul = component.root.findByType('ul');
   expect(ul.children.length).toBe(2);
-});
-it('should show 1 elem after deleting other', async () => {
-  const component = renderer.create(
-    <MockedProvider mocks={[deleteProjectMock]} addTypename={false}>
-      <App />
-    </MockedProvider>
-  );
-  await wait(0);
-  const ul = component.root.findByType('ul');
-  expect(ul.children.length).toBe(1);
 });
