@@ -1,9 +1,10 @@
 import React from 'react';
-import renderer, { act } from 'react-test-renderer';
 import { EditProjectModal } from './EditProjectModal';
 import { MockedProvider } from '@apollo/client/testing';
 import { GET_ENTERPRISES, GET_PROJECT } from '../gql';
 import wait from 'waait';
+import { render, unmountComponentAtNode } from 'react-dom';
+import { act } from 'react-dom/test-utils';
 
 // https://github.com/facebook/react/issues/11565
 jest.mock('react-dom', () => {
@@ -12,6 +13,18 @@ jest.mock('react-dom', () => {
     ...original,
     createPortal: (node: any) => node,
   };
+});
+
+let container: any = null;
+beforeEach(() => {
+  container = document.createElement('div');
+  document.body.appendChild(container);
+});
+
+afterEach(() => {
+  unmountComponentAtNode(container);
+  container.remove();
+  container = null;
 });
 
 const mockedQueries = [
@@ -55,15 +68,33 @@ const mockedQueries = [
 ];
 
 it('renders correctly', async () => {
-  const component = renderer.create(
+  render(
     <MockedProvider mocks={mockedQueries} addTypename={false}>
       <EditProjectModal
         selectedProjectId="1"
         isEditProjectModalVisible={true}
         setIsEditProjectModalVisible={jest.fn()}
       />
-    </MockedProvider>
+    </MockedProvider>,
+    container
   );
   await act(wait);
-  expect(component).toMatchSnapshot();
+  expect(container).toMatchSnapshot();
+});
+
+it('s rendered title matches', async () => {
+  render(
+    <MockedProvider mocks={mockedQueries} addTypename={false}>
+      <EditProjectModal
+        selectedProjectId="1"
+        isEditProjectModalVisible={true}
+        setIsEditProjectModalVisible={jest.fn()}
+      />
+    </MockedProvider>,
+    container
+  );
+  await act(wait);
+  expect(
+    container.querySelector('div[class="ant-modal-title"]').textContent
+  ).toEqual('Edit Sub-Ex');
 });
