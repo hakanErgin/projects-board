@@ -1,4 +1,4 @@
-(Link)[https://powerful-island-52772.herokuapp.com/]
+[Link to deployed example](https://powerful-island-52772.herokuapp.com/)
 *it takes a moment to wake up*
 
 # Projects board
