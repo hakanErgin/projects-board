@@ -29,7 +29,11 @@ const cache = new InMemoryCache({
 });
 
 const client = new ApolloClient({
-  uri: 'http://localhost:5000/graphql',
+  uri:
+    process.env.REACT_APP_GQL_API ||
+    // -remote api-
+    // 'https://blooming-cliffs-33388.herokuapp.com/graphql',
+    'http://localhost:5000/graphql',
   cache: cache,
 });
 
