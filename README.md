@@ -1,6 +1,4 @@
-[Link to deployed example](https://obscure-lake-43497.herokuapp.com/)
-
-*note: it takes a moment to wake up*
+*note: project takes a moment to wake up*
 
 # Projects board
 
